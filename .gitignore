@@ -1,3 +1,11 @@
+#Npm/Parcel
 node_modules
 .cache
 .parcel-cache
+
+# Mac/OSX
+.DS_Store
+
+# Packaging
+dist/
+build/
