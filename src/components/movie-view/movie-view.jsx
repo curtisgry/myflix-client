@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 
+
+
 export default class MovieView extends Component {
 
     keyPressCallback(event){
@@ -21,7 +23,7 @@ export default class MovieView extends Component {
                 return (
                         <div className="movie-view">
                                 <div className="movie-poster">
-                                        <img style={{width: '200px'}} src={movie.Image} />
+                                        <img src={movie.Image} />
                                 </div>
                                 <div className="movie-title">
                                         <span className="label">Title: </span>
@@ -46,5 +48,5 @@ MovieView.propTypes = {
             Description: PropTypes.string.isRequired,
             ImagePath: PropTypes.string.isRequired,
     }).isRequired,
-    onMovieClick: PropTypes.func.isRequired,
+    onBackClick: PropTypes.func.isRequired,
 };
