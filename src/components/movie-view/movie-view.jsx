@@ -1,7 +1,21 @@
 /* eslint-disable */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types'
 
 export default class MovieView extends Component {
+
+    keyPressCallback(event){
+        console.log(event)
+    }
+
+    componentDidMount(){
+        document.addEventListener('keydown', this.keyPressCallback)
+    }
+
+    componentWillUnmount(){
+        document.removeEventListener('keydown', this.keyPressCallback)
+    }
+
         render() {
                 const { movie, onBackClick } = this.props;
                 return (
@@ -24,4 +38,13 @@ export default class MovieView extends Component {
                 );
         }
 }
-/* eslint-disable */
+
+
+MovieView.propTypes = {
+    movie: PropTypes.shape({
+            Title: PropTypes.string.isRequired,
+            Description: PropTypes.string.isRequired,
+            ImagePath: PropTypes.string.isRequired,
+    }).isRequired,
+    onMovieClick: PropTypes.func.isRequired,
+};

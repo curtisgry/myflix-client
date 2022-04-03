@@ -1,38 +1,29 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import MovieCard from '../movie-card/movie-card';
 import MovieView from '../movie-view/movie-view';
-
-import inceptionImage from '../../images/inception.jpeg';
-import shawshankImage from '../../images/shawshank.jpeg';
-import gladiatorImage from '../../images/gladiator.jpeg';
+import LoginView from '../login-view/login-view';
 
 export default class MainView extends Component {
         constructor() {
                 super();
                 this.state = {
-                        movies: [
-                                {
-                                        _id: 1,
-                                        Title: 'Inception',
-                                        Description:
-                                                'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O., but his tragic past may doom the project and his team to disaster.',
-                                        Image: inceptionImage,
-                                },
-                                {
-                                        _id: 2,
-                                        Title: 'The Shawshank Redemption',
-                                        Description: 'Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.',
-                                        Image: shawshankImage,
-                                },
-                                {
-                                        _id: 3,
-                                        Title: 'Gladiator',
-                                        Description: 'A former Roman General sets out to exact vengeance against the corrupt emperor who murdered his family and sent him into slavery.',
-                                        Image: gladiatorImage,
-                                },
-                        ],
+                        movies: [],
                         selectedMovie: null,
+                        user: null,
                 };
+        }
+
+        componentDidMount() {
+                axios.get('https://myflix-api-cgray.herokuapp.com/movies')
+                        .then((res) => {
+                                this.setState({
+                                        movies: res.data,
+                                });
+                        })
+                        .catch((err) => {
+                                console.log(err);
+                        });
         }
 
         // Used with click event on MovieCard and MovieView to change UI view
@@ -40,11 +31,21 @@ export default class MainView extends Component {
                 this.setState({ selectedMovie: newSelectedMoive });
         }
 
-        render() {
-                const { movies, selectedMovie } = this.state;
+        // Updates user property in state to the logged in user
+        onLoggedIn(user) {
+                this.setState({
+                        user,
+                });
+        }
 
-                // Still display something if no movies are loaded
-                if (movies.length === 0) return <div className="main-view">The list is empty</div>;
+        render() {
+                const { movies, selectedMovie, user } = this.state;
+
+                // If no logged in user LoginView is rendered
+                if (!user) return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />;
+
+                // Empty container when no list is loaded
+                if (movies.length === 0) return <div className="main-view" />;
 
                 return (
                         <div className="main-view">
