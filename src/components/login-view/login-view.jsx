@@ -21,6 +21,7 @@ function LoginView({ onLoggedIn }) {
 
         return (
                 <div>
+                        <a href="#">Sign Up Here</a>
                         <form action="POST" onSubmit={handleSubmit}>
                                 <label htmlFor="Username">
                                         Username:
