@@ -1,5 +1,10 @@
 $color: steelblue;
 
+body {
+    // over-write bootstrap font
+    font-family: 'Nunito', sans-serif !important;
+}
+
 .my-flix {
   color: $color;
 }
