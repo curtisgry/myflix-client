@@ -23,7 +23,7 @@ export default class MovieView extends Component {
                 return (
                         <div className="movie-view">
                                 <div className="movie-poster">
-                                        <img src={movie.Image} />
+                                        <img src={`https://res.cloudinary.com/drghkywbx/image/upload/v1649103136/${movie.ImagePath}`} crossOrigin="anonymous" />
                                 </div>
                                 <div className="movie-title">
                                         <span className="label">Title: </span>
