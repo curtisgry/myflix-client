@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 function LoginView({ onLoggedIn }) {
         const [username, setUsername] = useState('');
         const [password, setPassword] = useState('');
 
         const handleChange = (e) => {
-                if (e.target.name === 'Username') {
+                console.log(e.target.name);
+                if (e.target.name === 'username') {
                         return setUsername(e.target.value);
                 }
                 setPassword(e.target.value);
@@ -14,7 +17,7 @@ function LoginView({ onLoggedIn }) {
 
         const handleSubmit = (e) => {
                 e.preventDefault();
-                console.log(username, password);
+                console.log(username);
                 // send login auth request will go here
                 onLoggedIn(username);
         };
@@ -22,22 +25,20 @@ function LoginView({ onLoggedIn }) {
         return (
                 <div>
                         <a href="#">Sign Up Here</a>
-                        <form action="POST" onSubmit={handleSubmit}>
-                                <label htmlFor="Username">
-                                        Username:
-                                        <input type="text" name="Username" value={username} onChange={handleChange} />
-                                </label>
-                                <label htmlFor="Password">
-                                        Password:
-                                        <input
-                                                type="password"
-                                                name="Password"
-                                                value={password}
-                                                onChange={handleChange}
-                                        />
-                                </label>
-                                <button type="submit">Log In</button>
-                        </form>
+                        <Form>
+                                <Form.Group controlId="formUsername">
+                                        <Form.Label>Username:</Form.Label>
+                                        <Form.Control name="username" type="text" onChange={handleChange} />
+                                </Form.Group>
+
+                                <Form.Group controlId="formPassword">
+                                        <Form.Label>Password:</Form.Label>
+                                        <Form.Control name="password" type="password" onChange={handleChange} />
+                                </Form.Group>
+                                <Button variant="primary" type="submit" onClick={handleSubmit}>
+                                        Submit
+                                </Button>
+                        </Form>
                 </div>
         );
 }
