@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
-function RegistrationView() {
+export default function RegistrationView() {
         const [userInfo, setUserInfo] = useState({
                 Username: '',
                 Password: '',
@@ -16,51 +17,27 @@ function RegistrationView() {
         };
 
         return (
-                <div>
-                        <form action="POST">
-                                <label htmlFor="username">
-                                        Username:
-                                        <input
-                                                id="username"
-                                                type="text"
-                                                name="Username"
-                                                value={userInfo.Username}
-                                                onChange={handleChange}
-                                        />
-                                </label>
-                                <label htmlFor="password">
-                                        Password:
-                                        <input
-                                                id="password"
-                                                type="password"
-                                                name="Password"
-                                                value={userInfo.Password}
-                                                onChange={handleChange}
-                                        />
-                                </label>
-                                <label htmlFor="email">
-                                        Email:
-                                        <input
-                                                id="email"
-                                                type="email"
-                                                name="Email"
-                                                value={userInfo.Email}
-                                                onChange={handleChange}
-                                        />
-                                </label>
-                                <label htmlFor="birthday">
-                                        Date of Birth:
-                                        <input
-                                                id="birthday"
-                                                type="date"
-                                                name="Birthday"
-                                                value={userInfo.Birthday}
-                                                onChange={handleChange}
-                                        />
-                                </label>
-                        </form>
-                </div>
+                <Form>
+                        <Form.Group controlId="formUsername">
+                                <Form.Label>Username:</Form.Label>
+                                <Form.Control name="username" type="text" onChange={handleChange} />
+                        </Form.Group>
+
+                        <Form.Group controlId="formPassword">
+                                <Form.Label>Password:</Form.Label>
+                                <Form.Control name="password" type="password" onChange={handleChange} />
+                        </Form.Group>
+                        <Form.Group controlId="formPassword">
+                                <Form.Label>Email:</Form.Label>
+                                <Form.Control name="email" type="email" onChange={handleChange} />
+                        </Form.Group>
+                        <Form.Group controlId="formPassword">
+                                <Form.Label>Date of Birth:</Form.Label>
+                                <Form.Control name="birthday" type="date" onChange={handleChange} />
+                        </Form.Group>
+                        <Button variant="primary" type="submit">
+                                Submit
+                        </Button>
+                </Form>
         );
 }
-
-export default RegistrationView;

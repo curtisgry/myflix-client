@@ -5,7 +5,6 @@ import Col from 'react-bootstrap/Col';
 import MovieCard from '../movie-card/movie-card';
 import MovieView from '../movie-view/movie-view';
 import LoginView from '../login-view/login-view';
-import RegistrationView from '../registration-view/registration-view';
 
 export default class MainView extends Component {
         constructor() {
