@@ -17,7 +17,24 @@ export default class MainView extends Component {
         }
 
         componentDidMount() {
-                axios.get('https://myflix-api-cgray.herokuapp.com/movies')
+                const accessToken = localStorage.getItem('token');
+                if (accessToken !== null) {
+                        this.setState({
+                                user: localStorage.getItem('user'),
+                        });
+                        this.getMovies(accessToken);
+                }
+        }
+
+        // Used with click event on MovieCard and MovieView to change UI view
+        setSelectedMovie(newSelectedMoive) {
+                this.setState({ selectedMovie: newSelectedMoive });
+        }
+
+        getMovies(userToken) {
+                axios.get('https://myflix-api-cgray.herokuapp.com/movies', {
+                        headers: { Authorization: `Bearer ${userToken}` },
+                })
                         .then((res) => {
                                 this.setState({
                                         movies: res.data,
@@ -28,17 +45,16 @@ export default class MainView extends Component {
                         });
         }
 
-        // Used with click event on MovieCard and MovieView to change UI view
-        setSelectedMovie(newSelectedMoive) {
-                this.setState({ selectedMovie: newSelectedMoive });
-        }
-
         // Updates user property in state to the logged in user
-        onLoggedIn(user) {
-                console.log(`in onloggin${user}`);
+        onLoggedIn(authData) {
+                console.log(authData);
                 this.setState({
-                        user,
+                        user: authData.user.Username,
                 });
+
+                localStorage.setItem('token', authData.token);
+                localStorage.setItem('user', authData.user.Username);
+                this.getMovies(authData.token);
         }
 
         render() {

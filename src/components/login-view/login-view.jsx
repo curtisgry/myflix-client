@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import axios from 'axios';
 
 function LoginView({ onLoggedIn }) {
         const [username, setUsername] = useState('');
@@ -17,9 +18,18 @@ function LoginView({ onLoggedIn }) {
 
         const handleSubmit = (e) => {
                 e.preventDefault();
-                console.log(username);
-                // send login auth request will go here
-                onLoggedIn(username);
+                // Send authentication request to the server
+                axios.post('https://myflix-api-cgray.herokuapp.com/login', {
+                        Username: username,
+                        Password: password,
+                })
+                        .then((response) => {
+                                const { data } = response;
+                                onLoggedIn(data);
+                        })
+                        .catch((e) => {
+                                console.log('No user found');
+                        });
         };
 
         return (
