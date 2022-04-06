@@ -1,12 +1,14 @@
-import React, { Component } from "react";
-import axios from "axios";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import MovieCard from "../movie-card/movie-card";
-import MovieView from "../movie-view/movie-view";
-import LoginView from "../login-view/login-view";
-import DirectorView from "../director-view/director-view";
+import React, { Component } from 'react';
+import axios from 'axios';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import MovieCard from '../movie-card/movie-card';
+import MovieView from '../movie-view/movie-view';
+import LoginView from '../login-view/login-view';
+import DirectorView from '../director-view/director-view';
+import NavbarTop from '../navbar/navbar';
+import DirectorsViewAll from '../directors-view-all/directors-view-all';
 
 export default class MainView extends Component {
   constructor() {
@@ -19,10 +21,10 @@ export default class MainView extends Component {
   }
 
   componentDidMount() {
-    const accessToken = localStorage.getItem("token");
+    const accessToken = localStorage.getItem('token');
     if (accessToken !== null) {
       this.setState({
-        user: localStorage.getItem("user"),
+        user: localStorage.getItem('user'),
       });
       this.getMovies(accessToken);
     }
@@ -35,7 +37,7 @@ export default class MainView extends Component {
 
   getMovies(userToken) {
     axios
-      .get("https://myflix-api-cgray.herokuapp.com/movies", {
+      .get('https://myflix-api-cgray.herokuapp.com/movies', {
         headers: { Authorization: `Bearer ${userToken}` },
       })
       .then((res) => {
@@ -55,8 +57,8 @@ export default class MainView extends Component {
       user: authData.user.Username,
     });
 
-    localStorage.setItem("token", authData.token);
-    localStorage.setItem("user", authData.user.Username);
+    localStorage.setItem('token', authData.token);
+    localStorage.setItem('user', authData.user.Username);
     this.getMovies(authData.token);
   }
 
@@ -72,6 +74,7 @@ export default class MainView extends Component {
 
     return (
       <Router>
+        <NavbarTop />
         <Row className="main-view justify-content-md-center">
           <Route
             exact
@@ -98,7 +101,22 @@ export default class MainView extends Component {
           />
           <Route
             exact
-            path="directors/:name"
+            path="/directors"
+            render={({ match, history }) => {
+              if (movies.length === 0) return <div className="main-view" />;
+              return (
+                <Col md={8}>
+                  <DirectorsViewAll
+                    movies={movies}
+                    onBackClick={() => history.goBack()}
+                  />
+                </Col>
+              );
+            }}
+          />
+          <Route
+            exact
+            path="/directors/:name"
             render={({ match, history }) => {
               if (movies.length === 0) return <div className="main-view" />;
               return (
@@ -108,6 +126,9 @@ export default class MainView extends Component {
                       movies.find((m) => m.Director.Name === match.params.name)
                         .Director
                     }
+                    directorMovies={movies.filter(
+                      (m) => m.Director.Name === match.params.name
+                    )}
                     onBackClick={() => history.goBack()}
                   />
                 </Col>
