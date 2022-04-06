@@ -9,6 +9,7 @@ import LoginView from '../login-view/login-view';
 import DirectorView from '../director-view/director-view';
 import NavbarTop from '../navbar/navbar';
 import DirectorsViewAll from '../directors-view-all/directors-view-all';
+import GenreViewAll from '../genre-view-all/genre-view-all';
 
 export default class MainView extends Component {
   constructor() {
@@ -102,11 +103,26 @@ export default class MainView extends Component {
           <Route
             exact
             path="/directors"
-            render={({ match, history }) => {
+            render={({ history }) => {
               if (movies.length === 0) return <div className="main-view" />;
               return (
                 <Col md={8}>
                   <DirectorsViewAll
+                    movies={movies}
+                    onBackClick={() => history.goBack()}
+                  />
+                </Col>
+              );
+            }}
+          />
+          <Route
+            exact
+            path="/genres"
+            render={({ history }) => {
+              if (movies.length === 0) return <div className="main-view" />;
+              return (
+                <Col md={8}>
+                  <GenreViewAll
                     movies={movies}
                     onBackClick={() => history.goBack()}
                   />
@@ -135,7 +151,6 @@ export default class MainView extends Component {
               );
             }}
           />
-          )
         </Row>
       </Router>
     );
