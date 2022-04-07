@@ -10,6 +10,8 @@ import DirectorView from '../director-view/director-view';
 import NavbarTop from '../navbar/navbar';
 import DirectorsViewAll from '../directors-view-all/directors-view-all';
 import GenreViewAll from '../genre-view-all/genre-view-all';
+import GenreView from '../genre-view/genre-view';
+import RegistrationView from '../registration-view/registration-view';
 
 export default class MainView extends Component {
   constructor() {
@@ -66,13 +68,6 @@ export default class MainView extends Component {
   render() {
     const { movies, user } = this.state;
 
-    // If no logged in user LoginView is rendered
-    if (!user)
-      return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />;
-
-    // Empty container when no list is loaded
-    if (movies.length === 0) return <div className="main-view" />;
-
     return (
       <Router>
         <NavbarTop />
@@ -80,13 +75,27 @@ export default class MainView extends Component {
           <Route
             exact
             path="/"
-            render={() =>
-              movies.map((m) => (
+            render={() => {
+              // If no logged in user LoginView is rendered
+              if (!user)
+                return (
+                  <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
+                );
+
+              // Empty container when no list is loaded
+              if (movies.length === 0) return <div className="main-view" />;
+
+              return movies.map((m) => (
                 <Col md={3} key={m._id}>
                   <MovieCard movie={m} />
                 </Col>
-              ))
-            }
+              ));
+            }}
+          />
+          <Route
+            exact
+            path="/users/register"
+            render={() => <RegistrationView />}
           />
           <Route
             exact
@@ -124,6 +133,27 @@ export default class MainView extends Component {
                 <Col md={8}>
                   <GenreViewAll
                     movies={movies}
+                    onBackClick={() => history.goBack()}
+                  />
+                </Col>
+              );
+            }}
+          />
+          <Route
+            exact
+            path="/genres/:name"
+            render={({ match, history }) => {
+              if (movies.length === 0) return <div className="main-view" />;
+              return (
+                <Col md={8}>
+                  <GenreView
+                    movies={movies.filter(
+                      (m) => m.Genre.Name === match.params.name
+                    )}
+                    genre={
+                      movies.find((m) => m.Genre.Name === match.params.name)
+                        .Genre
+                    }
                     onBackClick={() => history.goBack()}
                   />
                 </Col>

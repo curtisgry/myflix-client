@@ -1,11 +1,11 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
 import { Link } from 'react-router-dom';
 
-export default function DirectorCard({ director }) {
+function DirectorCard({ director }) {
   return (
     <Card>
       <Card.Body>
@@ -18,3 +18,12 @@ export default function DirectorCard({ director }) {
     </Card>
   );
 }
+
+DirectorCard.propTypes = {
+  director: PropTypes.shape({
+    Name: PropTypes.string.isRequired,
+    Bio: PropTypes.string.isRequired,
+  }).isRequired,
+};
+
+export default DirectorCard;
