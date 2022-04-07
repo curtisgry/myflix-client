@@ -22,6 +22,7 @@ export default class MainView extends Component {
     this.state = {
       movies: [],
       user: null,
+      favoriteList: [],
     };
   }
 
@@ -64,7 +65,6 @@ export default class MainView extends Component {
 
   render() {
     const { movies, user } = this.state;
-
     return (
       <Router>
         <NavbarTop user={user} />
@@ -99,6 +99,14 @@ export default class MainView extends Component {
                   <RegistrationView onLoggedIn={this.onLoggedIn} />
                 </Col>
               );
+            }}
+          />
+          <Route
+            exact
+            path="/login"
+            render={() => {
+              if (user) return <Redirect to="/" />;
+              return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />;
             }}
           />
           <Route
@@ -158,6 +166,7 @@ export default class MainView extends Component {
                   <MovieView
                     movie={movies.find((m) => m._id === match.params.movieId)}
                     onBackClick={() => history.goBack()}
+                    user={user}
                   />
                 </Col>
               );

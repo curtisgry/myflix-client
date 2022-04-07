@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+
 import format from 'date-fns/format';
 import PropTypes from 'prop-types';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 function UpdateProfile({ user, onLoggedIn }) {
   const [userInfo, setUserInfo] = useState({});
   const [isEditSuccess, setIsEditSuccess] = useState(false);
+  const [validationErrors, setValidationErrors] = useState({
+    UsernameErr: '',
+    PasswordErr: '',
+    EmailErr: '',
+    BirthdayErr: '',
+  });
 
   useEffect(() => {
     const userToken = localStorage.getItem('token');
@@ -19,16 +27,9 @@ function UpdateProfile({ user, onLoggedIn }) {
         setUserInfo({ ...res.data, Password: '' });
       })
       .catch(() => {
-        console.log('no user found');
+        console.log('No user found');
       });
   }, []);
-
-  const [validationErrors, setValidationErrors] = useState({
-    UsernameErr: '',
-    PasswordErr: '',
-    EmailErr: '',
-    BirthdayErr: '',
-  });
 
   // Returns false when empty and true when not empty
   // isReq should be an updateable variable from upper scope
@@ -93,6 +94,20 @@ function UpdateProfile({ user, onLoggedIn }) {
     return isReq;
   };
 
+  const deleteUser = (username) => {
+    const userToken = localStorage.getItem('token');
+    axios
+      .delete(`https://myflix-api-cgray.herokuapp.com/users/${username}`, {
+        headers: { Authorization: `Bearer ${userToken}` },
+      })
+      .then(() => {
+        localStorage.clear();
+      })
+      .catch((e) => {
+        console.log('Could not delete', e);
+      });
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUserInfo({ ...userInfo, [name]: value });
@@ -102,17 +117,16 @@ function UpdateProfile({ user, onLoggedIn }) {
     e.preventDefault();
     const userToken = localStorage.getItem('token');
     const isReq = validate();
-    const { Username, Password, Email, Birthday } = userInfo;
 
     if (isReq) {
       axios
         .put(
           `https://myflix-api-cgray.herokuapp.com/users/${user}`,
           {
-            Username,
-            Password,
-            Email,
-            Birthday,
+            Username: userInfo.Username,
+            Password: userInfo.Password,
+            Email: userInfo.Email,
+            Birthday: userInfo.Birthday,
           },
           {
             headers: { Authorization: `Bearer ${userToken}` },
@@ -121,10 +135,11 @@ function UpdateProfile({ user, onLoggedIn }) {
         .then((res) => {
           axios
             .post('https://myflix-api-cgray.herokuapp.com/login', {
-              Username: res.data.Username,
-              Password: res.data.Password,
+              Username: userInfo.Username,
+              Password: userInfo.Password,
             })
             .then((response) => {
+              console.log(response);
               const { data } = response;
               onLoggedIn(data);
             })
@@ -145,7 +160,7 @@ function UpdateProfile({ user, onLoggedIn }) {
     <>
       <h2>Update Info</h2>
       {isEditSuccess ? <span>Success!</span> : ''}
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit} className="mb-4">
         <Form.Group controlId="formUsername">
           <Form.Label>Username:</Form.Label>
           <Form.Control
@@ -188,7 +203,7 @@ function UpdateProfile({ user, onLoggedIn }) {
             ''
           )}
         </Form.Group>
-        <Form.Group controlId="formBirthday">
+        <Form.Group controlId="formBirthday" className="mb-3">
           <Form.Label>Date of Birth:</Form.Label>
           {userInfo.Birthday ? (
             <Form.Control
@@ -210,6 +225,11 @@ function UpdateProfile({ user, onLoggedIn }) {
           Submit
         </Button>
       </Form>
+      <Link to="/users/login">
+        <Button variant="danger" onClick={() => deleteUser(user)}>
+          Delete Account
+        </Button>
+      </Link>
     </>
   );
 }

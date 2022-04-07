@@ -18,6 +18,7 @@ function DirectorsViewAll({ movies }) {
 
   return (
     <div>
+      <h2>Directors</h2>
       <Row>
         {directorList.map((director) => (
           <Col lg={12} key={director.Name}>

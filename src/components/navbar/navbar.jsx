@@ -34,7 +34,7 @@ function NavbarTop({ user }) {
                 <Link to="/users/login">
                   <Nav.Link as="li">Log In</Nav.Link>
                 </Link>
-                <Link to="/users/register">
+                <Link to="/register">
                   <Nav.Link as="li">Sign Up</Nav.Link>
                 </Link>
               </>

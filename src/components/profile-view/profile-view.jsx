@@ -5,8 +5,10 @@ import Button from 'react-bootstrap/Button';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import format from 'date-fns/format';
+import { Col, Row } from 'react-bootstrap';
+import MovieCard from '../movie-card/movie-card';
 
-function ProfileView({ user }) {
+function ProfileView({ user, movies }) {
   const [userInfo, setUserInfo] = useState({});
 
   useEffect(() => {
@@ -21,10 +23,23 @@ function ProfileView({ user }) {
       .catch(() => {
         console.log('no user found');
       });
-  }, []);
+  }, [userInfo]);
+
+  const removeFavorite = (movieId) => {
+    const userToken = localStorage.getItem('token');
+    axios.delete(
+      `https://myflix-api-cgray.herokuapp.com/users/${user}/movies/${movieId}`,
+      {
+        headers: { Authorization: `Bearer ${userToken}` },
+      }
+    );
+  };
 
   return (
     <>
+      <Link to={`/users/edit/${user}`}>
+        <Button variant="link">Edit Profile</Button>
+      </Link>
       <ListGroup as="ul">
         <ListGroup.Item
           as="li"
@@ -58,15 +73,33 @@ function ProfileView({ user }) {
           )}
         </ListGroup.Item>
       </ListGroup>
-      <Link to={`/users/edit/${user}`}>
-        <Button variant="link">Edit Profile</Button>
-      </Link>
+      <h3>Favorites List</h3>
+      <Row>
+        {userInfo.FavoriteMovies
+          ? movies
+              .filter(
+                (movie) => userInfo.FavoriteMovies.indexOf(movie._id) !== -1
+              )
+              .map((movie) => (
+                <Col md={3} key={movie._id}>
+                  <MovieCard movie={movie} />
+                  <Button
+                    variant="link"
+                    onClick={() => removeFavorite(movie._id)}
+                  >
+                    Remove
+                  </Button>
+                </Col>
+              ))
+          : ''}
+      </Row>
     </>
   );
 }
 
 ProfileView.propTypes = {
   user: PropTypes.string.isRequired,
+  movies: PropTypes.array.isRequired,
 };
 
 export default ProfileView;

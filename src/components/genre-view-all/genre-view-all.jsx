@@ -19,10 +19,11 @@ function GenreViewAll({ movies }) {
 
   return (
     <div>
+      <h2>Genres</h2>
       <Row>
-        {genreList.map((genre) => (
-          <Col lg={12} key={genre._id}>
-            <h2>{genre.Name}</h2>
+        {genreList.map((genre, i) => (
+          <Col lg={12} key={i}>
+            <h4>{genre.Name}</h4>
             <p>{genre.Description}</p>
             <Link to={`/genres/${genre.Name}`}>
               <Button variant="link">View Movies</Button>

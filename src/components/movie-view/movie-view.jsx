@@ -1,28 +1,43 @@
 /* eslint-disable */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import axios from "axios";
 import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
-import { Button } from "react-bootstrap";
+import { Button, Badge } from "react-bootstrap";
 
 export default class MovieView extends Component {
 
-  // Event listener example
-  keyPressCallback(event) {
-    console.log(event);
+  constructor(){
+    super();
+    this.state = {
+      favoriteSuccess: false
+    }
   }
 
-  componentDidMount() {
-    document.addEventListener("keydown", this.keyPressCallback);
+  addToFavorites(user, movie){
+    const userToken = localStorage.getItem('token');
+    console.log(user)
+    console.log(userToken)
+    axios.post(`https://myflix-api-cgray.herokuapp.com/users/${user}/movies/${movie._id}`, null, {
+      headers: { Authorization: `Bearer ${userToken}` }
+    })
+    .then(()=> {
+      this.setState({
+        favoriteSuccess: true
+      })
+    })
+    .catch((e)=> {
+      console.log('Something went wrong' + e)
+    })
   }
 
-  componentWillUnmount() {
-    document.removeEventListener("keydown", this.keyPressCallback);
-  }
-  // Event listener example
+ 
 
   render() {
-    const { movie, onBackClick } = this.props;
+    const { movie, onBackClick, user } = this.props;
+    
+
     return (
       <>
         <Card>
@@ -33,8 +48,8 @@ export default class MovieView extends Component {
             crossOrigin="anonymous"
           />
           <Card.Body>
+          <h2 className="movie-title">{movie.Title}</h2>
             <Card.Text>
-              <h2 className="movie-title">{movie.Title}</h2>
               {movie.Description}
             </Card.Text>
             <Link to={`/directors/${movie.Director.Name}`}>
@@ -46,6 +61,8 @@ export default class MovieView extends Component {
             <Button variant="link" onClick={() => onBackClick()}>
               Back
             </Button>
+            <Button variant="success" onClick={() => this.addToFavorites(user, movie)}>Add to favorites</Button>
+            {this.state.favoriteSuccess ? <Badge bg="success">Success!</Badge> : ''}
           </Card.Body>
         </Card>
       </>
@@ -53,11 +70,4 @@ export default class MovieView extends Component {
   }
 }
 
-MovieView.propTypes = {
-  movie: PropTypes.shape({
-    Title: PropTypes.string.isRequired,
-    Description: PropTypes.string.isRequired,
-    ImagePath: PropTypes.string.isRequired,
-  }).isRequired,
-  onBackClick: PropTypes.func.isRequired,
-};
+
