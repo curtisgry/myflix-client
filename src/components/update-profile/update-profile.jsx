@@ -145,7 +145,6 @@ function UpdateProfile({ user, onLoggedIn, clearUserOnDelete }) {
               Password: userInfo.Password,
             })
             .then((response) => {
-              console.log(response);
               const { data } = response;
               onLoggedIn(data);
             })

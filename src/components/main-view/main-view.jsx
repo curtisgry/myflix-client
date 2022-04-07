@@ -23,7 +23,6 @@ export default class MainView extends Component {
     this.state = {
       movies: [],
       user: null,
-      favoriteList: [],
     };
   }
 

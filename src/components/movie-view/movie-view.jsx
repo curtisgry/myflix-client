@@ -17,8 +17,6 @@ export default class MovieView extends Component {
 
   addToFavorites(user, movie){
     const userToken = localStorage.getItem('token');
-    console.log(user)
-    console.log(userToken)
     axios.post(`https://myflix-api-cgray.herokuapp.com/users/${user}/movies/${movie._id}`, null, {
       headers: { Authorization: `Bearer ${userToken}` }
     })
