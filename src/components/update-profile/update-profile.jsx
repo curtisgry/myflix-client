@@ -115,8 +115,15 @@ function UpdateProfile({ user, onLoggedIn, clearUserOnDelete }) {
   };
 
   const handleChange = (e) => {
+    console.log(userInfo);
     const { name, value } = e.target;
     setUserInfo({ ...userInfo, [name]: value });
+  };
+
+  const onKeyUp = (e) => {
+    if (e.target.value.length === 0) {
+      handleChange(e);
+    }
   };
 
   const handleSubmit = (e) => {
@@ -173,6 +180,7 @@ function UpdateProfile({ user, onLoggedIn, clearUserOnDelete }) {
             name="Username"
             type="text"
             onChange={handleChange}
+            onKeyUp={onKeyUp}
           />
           {validationErrors.UsernameErr ? (
             <span>{validationErrors.UsernameErr}</span>
@@ -187,6 +195,7 @@ function UpdateProfile({ user, onLoggedIn, clearUserOnDelete }) {
             name="Password"
             type="password"
             onChange={handleChange}
+            onKeyUp={onKeyUp}
           />
           {validationErrors.PasswordErr ? (
             <span>{validationErrors.PasswordErr}</span>
@@ -201,6 +210,7 @@ function UpdateProfile({ user, onLoggedIn, clearUserOnDelete }) {
             name="Email"
             type="email"
             onChange={handleChange}
+            onKeyUp={onKeyUp}
           />
           {validationErrors.EmailErr ? (
             <span>{validationErrors.EmailErr}</span>
@@ -210,16 +220,16 @@ function UpdateProfile({ user, onLoggedIn, clearUserOnDelete }) {
         </Form.Group>
         <Form.Group controlId="formBirthday" className="mb-3">
           <Form.Label>Date of Birth:</Form.Label>
-          {userInfo.Birthday ? (
-            <Form.Control
-              defaultValue={format(new Date(userInfo.Birthday), 'yyy-MM-dd')}
-              name="Birthday"
-              type="date"
-              onChange={handleChange}
-            />
-          ) : (
-            ''
-          )}
+          <Form.Control
+            defaultValue={
+              userInfo.Birthday
+                ? format(new Date(userInfo.Birthday), 'yyy-MM-dd')
+                : ''
+            }
+            name="Birthday"
+            type="date"
+            onChange={handleChange}
+          />
           {validationErrors.BirthdayErr ? (
             <span>{validationErrors.BirthdayErr}</span>
           ) : (
