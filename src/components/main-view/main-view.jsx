@@ -76,6 +76,7 @@ export default class MainView extends Component {
       <Router>
         <NavbarTop user={user} />
         <Row className="main-view justify-content-md-center">
+          {/* Main view for all movies */}
           <Route
             exact
             path="/"
@@ -96,6 +97,8 @@ export default class MainView extends Component {
               ));
             }}
           />
+
+          {/* Register new User */}
           <Route
             exact
             path="/register"
@@ -108,6 +111,8 @@ export default class MainView extends Component {
               );
             }}
           />
+
+          {/* Login user */}
           <Route
             exact
             path="/login"
@@ -116,6 +121,8 @@ export default class MainView extends Component {
               return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />;
             }}
           />
+
+          {/* View user profile info */}
           <Route
             exact
             path="/users/:username"
@@ -134,6 +141,8 @@ export default class MainView extends Component {
               );
             }}
           />
+
+          {/* Edit user profile */}
           <Route
             exact
             path="/users/edit/:username"
@@ -158,6 +167,8 @@ export default class MainView extends Component {
               );
             }}
           />
+
+          {/* More info for selected movie */}
           <Route
             exact
             path="/movies/:movieId"
@@ -180,6 +191,8 @@ export default class MainView extends Component {
               );
             }}
           />
+
+          {/* View all directors with info */}
           <Route
             exact
             path="/directors"
@@ -201,6 +214,8 @@ export default class MainView extends Component {
               );
             }}
           />
+
+          {/* View all genres with info */}
           <Route
             exact
             path="/genres"
@@ -222,6 +237,8 @@ export default class MainView extends Component {
               );
             }}
           />
+
+          {/* View movies in a genre */}
           <Route
             exact
             path="/genres/:name"
@@ -249,6 +266,8 @@ export default class MainView extends Component {
               );
             }}
           />
+
+          {/* View movies by a director */}
           <Route
             exact
             path="/directors/:name"
