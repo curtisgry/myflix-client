@@ -4,7 +4,6 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import RegistrationView from '../registration-view/registration-view';
 
 function LoginView({ onLoggedIn }) {
   const [username, setUsername] = useState('');
@@ -56,7 +55,7 @@ function LoginView({ onLoggedIn }) {
           const { data } = response;
           onLoggedIn(data);
         })
-        .catch((e) => {
+        .catch(() => {
           console.log('No user found');
         });
     }

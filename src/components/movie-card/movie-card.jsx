@@ -13,6 +13,7 @@ export default class MovieCard extends Component {
       <Card>
         <img
           className="card-image"
+          alt={`A marketing poster for the movie ${movie.Title}`}
           src={`https://res.cloudinary.com/drghkywbx/image/upload/c_thumb,w_200/v1649103140/${movie.ImagePath}`}
           crossOrigin="anonymous"
         />

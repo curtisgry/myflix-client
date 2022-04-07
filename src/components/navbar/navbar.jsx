@@ -14,10 +14,10 @@ export default function NavbarTop() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Link to="/genres">
-              <Nav.Link href="/genres">Genres</Nav.Link>
+              <Nav.Link as="li">Genres</Nav.Link>
             </Link>
             <Link to="/directors">
-              <Nav.Link href="/directors">Directors</Nav.Link>
+              <Nav.Link as="li">Directors</Nav.Link>
             </Link>
           </Nav>
         </Navbar.Collapse>

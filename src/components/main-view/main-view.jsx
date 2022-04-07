@@ -18,7 +18,6 @@ export default class MainView extends Component {
     super();
     this.state = {
       movies: [],
-      selectedMovie: null,
       user: null,
     };
   }
@@ -33,11 +32,19 @@ export default class MainView extends Component {
     }
   }
 
-  // Used with click event on MovieCard and MovieView to change UI view
-  setSelectedMovie(newSelectedMoive) {
-    this.setState({ selectedMovie: newSelectedMoive });
+  // Updates user property in state to the logged in user
+  onLoggedIn(authData) {
+    console.log(authData);
+    this.setState({
+      user: authData.user.Username,
+    });
+
+    localStorage.setItem('token', authData.token);
+    localStorage.setItem('user', authData.user.Username);
+    this.getMovies(authData.token);
   }
 
+  // Get movie list and update state with user authentication from Bearer Token
   getMovies(userToken) {
     axios
       .get('https://myflix-api-cgray.herokuapp.com/movies', {
@@ -51,18 +58,6 @@ export default class MainView extends Component {
       .catch((err) => {
         console.log(err);
       });
-  }
-
-  // Updates user property in state to the logged in user
-  onLoggedIn(authData) {
-    console.log(authData);
-    this.setState({
-      user: authData.user.Username,
-    });
-
-    localStorage.setItem('token', authData.token);
-    localStorage.setItem('user', authData.user.Username);
-    this.getMovies(authData.token);
   }
 
   render() {
@@ -100,19 +95,34 @@ export default class MainView extends Component {
           <Route
             exact
             path="/movies/:movieId"
-            render={({ match, history }) => (
-              <Col md={8}>
-                <MovieView
-                  movie={movies.find((m) => m._id === match.params.movieId)}
-                  onBackClick={() => history.goBack()}
-                />
-              </Col>
-            )}
+            render={({ match, history }) => {
+              // If no logged in user LoginView is rendered
+              if (!user)
+                return (
+                  <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
+                );
+              // Empty container when no list is loaded
+              if (movies.length === 0) return <div className="main-view" />;
+              return (
+                <Col md={8}>
+                  <MovieView
+                    movie={movies.find((m) => m._id === match.params.movieId)}
+                    onBackClick={() => history.goBack()}
+                  />
+                </Col>
+              );
+            }}
           />
           <Route
             exact
             path="/directors"
             render={({ history }) => {
+              // If no logged in user LoginView is rendered
+              if (!user)
+                return (
+                  <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
+                );
+              // Empty container when no list is loaded
               if (movies.length === 0) return <div className="main-view" />;
               return (
                 <Col md={8}>
@@ -128,6 +138,12 @@ export default class MainView extends Component {
             exact
             path="/genres"
             render={({ history }) => {
+              // If no logged in user LoginView is rendered
+              if (!user)
+                return (
+                  <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
+                );
+              // Empty container when no list is loaded
               if (movies.length === 0) return <div className="main-view" />;
               return (
                 <Col md={8}>
@@ -143,6 +159,12 @@ export default class MainView extends Component {
             exact
             path="/genres/:name"
             render={({ match, history }) => {
+              // If no logged in user LoginView is rendered
+              if (!user)
+                return (
+                  <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
+                );
+              // Empty container when no list is loaded
               if (movies.length === 0) return <div className="main-view" />;
               return (
                 <Col md={8}>
@@ -164,6 +186,12 @@ export default class MainView extends Component {
             exact
             path="/directors/:name"
             render={({ match, history }) => {
+              // If no logged in user LoginView is rendered
+              if (!user)
+                return (
+                  <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
+                );
+              // Empty container when no list is loaded
               if (movies.length === 0) return <div className="main-view" />;
               return (
                 <Col md={8}>
