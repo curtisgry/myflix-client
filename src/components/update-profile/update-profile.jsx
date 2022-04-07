@@ -5,9 +5,9 @@ import format from 'date-fns/format';
 import PropTypes from 'prop-types';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { Link, useHistory } from 'react-router-dom';
 
-function UpdateProfile({ user, onLoggedIn }) {
+function UpdateProfile({ user, onLoggedIn, clearUserOnDelete }) {
   const [userInfo, setUserInfo] = useState({});
   const [isEditSuccess, setIsEditSuccess] = useState(false);
   const [validationErrors, setValidationErrors] = useState({
@@ -16,6 +16,8 @@ function UpdateProfile({ user, onLoggedIn }) {
     EmailErr: '',
     BirthdayErr: '',
   });
+
+  const history = useHistory();
 
   useEffect(() => {
     const userToken = localStorage.getItem('token');
@@ -102,6 +104,10 @@ function UpdateProfile({ user, onLoggedIn }) {
       })
       .then(() => {
         localStorage.clear();
+        clearUserOnDelete();
+      })
+      .then(() => {
+        history.push('/login');
       })
       .catch((e) => {
         console.log('Could not delete', e);
@@ -225,11 +231,10 @@ function UpdateProfile({ user, onLoggedIn }) {
           Submit
         </Button>
       </Form>
-      <Link to="/users/login">
-        <Button variant="danger" onClick={() => deleteUser(user)}>
-          Delete Account
-        </Button>
-      </Link>
+
+      <Button variant="danger" onClick={() => deleteUser(user)}>
+        Delete Account
+      </Button>
     </>
   );
 }
@@ -237,6 +242,7 @@ function UpdateProfile({ user, onLoggedIn }) {
 UpdateProfile.propTypes = {
   user: PropTypes.string.isRequired,
   onLoggedIn: PropTypes.func.isRequired,
+  clearUserOnDelete: PropTypes.func.isRequired,
 };
 
 export default UpdateProfile;

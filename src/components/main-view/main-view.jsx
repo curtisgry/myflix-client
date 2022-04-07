@@ -19,6 +19,7 @@ export default class MainView extends Component {
   constructor() {
     super();
     this.onLoggedIn = this.onLoggedIn.bind(this);
+    this.clearUserOnDelete = this.clearUserOnDelete.bind(this);
     this.state = {
       movies: [],
       user: null,
@@ -61,6 +62,13 @@ export default class MainView extends Component {
       .catch((err) => {
         console.log(err);
       });
+  }
+
+  // Remove user from state when deleted from the edit view
+  clearUserOnDelete() {
+    this.setState({
+      user: null,
+    });
   }
 
   render() {
@@ -145,6 +153,7 @@ export default class MainView extends Component {
                     movies={movies}
                     user={user}
                     onLoggedIn={this.onLoggedIn}
+                    clearUserOnDelete={this.clearUserOnDelete}
                   />
                 </Col>
               );
