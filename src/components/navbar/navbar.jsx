@@ -1,10 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Container from 'react-bootstrap/Container';
 import { Link } from 'react-router-dom';
 
-export default function NavbarTop() {
+function NavbarTop({ user }) {
+  console.log(user);
   return (
     <Navbar bg="light" expand="lg">
       <Container>
@@ -20,8 +22,33 @@ export default function NavbarTop() {
               <Nav.Link as="li">Directors</Nav.Link>
             </Link>
           </Nav>
+          <Nav className="justify-content-end">
+            {user ? (
+              <>
+                <Navbar.Text>Welcome </Navbar.Text>
+                <Link to={`/users/${user}`}>
+                  <Nav.Link as="li">{user}</Nav.Link>
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link to="/users/login">
+                  <Nav.Link as="li">Log In</Nav.Link>
+                </Link>
+                <Link to="/users/register">
+                  <Nav.Link as="li">Sign Up</Nav.Link>
+                </Link>
+              </>
+            )}
+          </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
   );
 }
+
+NavbarTop.propTypes = {
+  user: PropTypes.string,
+};
+
+export default NavbarTop;

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import MovieCard from '../movie-card/movie-card';
 import MovieView from '../movie-view/movie-view';
 import LoginView from '../login-view/login-view';
@@ -12,6 +12,7 @@ import DirectorsViewAll from '../directors-view-all/directors-view-all';
 import GenreViewAll from '../genre-view-all/genre-view-all';
 import GenreView from '../genre-view/genre-view';
 import RegistrationView from '../registration-view/registration-view';
+import ProfileView from '../profile-view/profile-view';
 
 export default class MainView extends Component {
   constructor() {
@@ -65,7 +66,7 @@ export default class MainView extends Component {
 
     return (
       <Router>
-        <NavbarTop />
+        <NavbarTop user={user} />
         <Row className="main-view justify-content-md-center">
           <Route
             exact
@@ -90,7 +91,36 @@ export default class MainView extends Component {
           <Route
             exact
             path="/users/register"
-            render={() => <RegistrationView />}
+            render={() => {
+              if (user) return <Redirect to="/" />;
+              return (
+                <Col>
+                  <RegistrationView />
+                </Col>
+              );
+            }}
+          />
+          <Route
+            exact
+            path="/users/:username"
+            render={({ match, history }) => {
+              // If no logged in user LoginView is rendered
+              if (!user)
+                return (
+                  <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
+                );
+              // Empty container when no list is loaded
+              if (movies.length === 0) return <div className="main-view" />;
+              return (
+                <Col>
+                  <ProfileView
+                    history={history}
+                    movies={movies}
+                    user={user === match.params.username}
+                  />
+                </Col>
+              );
+            }}
           />
           <Route
             exact
