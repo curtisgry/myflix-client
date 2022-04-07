@@ -10,10 +10,15 @@ function NavbarTop({ user }) {
     <Navbar bg="light" expand="lg">
       <Container>
         {/* Logo will go here */}
-        <Navbar.Brand href="/">myFlix</Navbar.Brand>
+        <Link to="/">
+          <Navbar.Brand>myFlix</Navbar.Brand>
+        </Link>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
+            <Link to="/">
+              <Nav.Link as="li">All</Nav.Link>
+            </Link>
             <Link to="/genres">
               <Nav.Link as="li">Genres</Nav.Link>
             </Link>

@@ -5,7 +5,7 @@ import format from 'date-fns/format';
 import PropTypes from 'prop-types';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 function UpdateProfile({ user, onLoggedIn, clearUserOnDelete }) {
   const [userInfo, setUserInfo] = useState({});
