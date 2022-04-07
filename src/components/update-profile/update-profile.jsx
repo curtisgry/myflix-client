@@ -1,16 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import format from 'date-fns/format';
 import PropTypes from 'prop-types';
 import Form from 'react-bootstrap/Form';
-import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 
-function RegistrationView({ onLoggedIn }) {
-  const [userInfo, setUserInfo] = useState({
-    Username: '',
-    Password: '',
-    Email: '',
-    Birthday: '',
-  });
+function UpdateProfile({ user, onLoggedIn }) {
+  const [userInfo, setUserInfo] = useState({});
+  const [isEditSuccess, setIsEditSuccess] = useState(false);
+
+  useEffect(() => {
+    const userToken = localStorage.getItem('token');
+    axios
+      .get(`https://myflix-api-cgray.herokuapp.com/users/${user}`, {
+        headers: { Authorization: `Bearer ${userToken}` },
+      })
+      .then((res) => {
+        setUserInfo({ ...res.data, Password: '' });
+      })
+      .catch(() => {
+        console.log('no user found');
+      });
+  }, []);
 
   const [validationErrors, setValidationErrors] = useState({
     UsernameErr: '',
@@ -65,7 +76,10 @@ function RegistrationView({ onLoggedIn }) {
     let isReq = true;
 
     // Get array of keys in the userInfo state
-    const fields = Object.keys(userInfo);
+    const fields = Object.keys(userInfo).filter(
+      (key) => key !== '__v' && key !== '_id' && key !== 'FavoriteMovies'
+    );
+
     // Loop through keys and validate each has data
     fields.forEach((field) => {
       isReq = checkNotEmptySetError(field, `${field} is required`, isReq);
@@ -86,48 +100,60 @@ function RegistrationView({ onLoggedIn }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const userToken = localStorage.getItem('token');
     const isReq = validate();
-    if (!isReq) {
-      console.log('Validation errors present');
-      return;
-    }
     const { Username, Password, Email, Birthday } = userInfo;
-    // Create user on api
-    axios
-      .post('https://myflix-api-cgray.herokuapp.com/users', {
-        Username,
-        Password,
-        Email,
-        Birthday,
-      })
-      .then((res) => {
-        // Login new user
-        axios
-          .post('https://myflix-api-cgray.herokuapp.com/login', {
+
+    if (isReq) {
+      axios
+        .put(
+          `https://myflix-api-cgray.herokuapp.com/users/${user}`,
+          {
             Username,
             Password,
-          })
-          .then((res) => {
-            const { data } = res;
-            // From main view component, generates JWT
-            onLoggedIn(data);
-          })
-          .catch(() => {
-            console.log('No user found');
-          });
-      })
-      .catch((e) => {
-        console.log('Something went wrong: ', e);
-      });
+            Email,
+            Birthday,
+          },
+          {
+            headers: { Authorization: `Bearer ${userToken}` },
+          }
+        )
+        .then((res) => {
+          axios
+            .post('https://myflix-api-cgray.herokuapp.com/login', {
+              Username: res.data.Username,
+              Password: res.data.Password,
+            })
+            .then((response) => {
+              const { data } = response;
+              onLoggedIn(data);
+            })
+            .catch(() => {
+              console.log('No user found');
+            });
+        })
+        .then(() => {
+          setIsEditSuccess(true);
+        })
+        .catch(() => {
+          console.log('Something went wrong');
+        });
+    }
   };
 
   return (
     <>
-      <h2>Sign Up</h2>
+      <h2>Update Info</h2>
+      {isEditSuccess ? <span>Success!</span> : ''}
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="formUsername">
           <Form.Label>Username:</Form.Label>
-          <Form.Control name="Username" type="text" onChange={handleChange} />
+          <Form.Control
+            defaultValue={userInfo.Username}
+            name="Username"
+            type="text"
+            onChange={handleChange}
+          />
           {validationErrors.UsernameErr ? (
             <span>{validationErrors.UsernameErr}</span>
           ) : (
@@ -136,7 +162,7 @@ function RegistrationView({ onLoggedIn }) {
         </Form.Group>
 
         <Form.Group controlId="formPassword">
-          <Form.Label>Password:</Form.Label>
+          <Form.Label>New password:</Form.Label>
           <Form.Control
             name="Password"
             type="password"
@@ -150,7 +176,12 @@ function RegistrationView({ onLoggedIn }) {
         </Form.Group>
         <Form.Group controlId="formEmail">
           <Form.Label>Email:</Form.Label>
-          <Form.Control name="Email" type="email" onChange={handleChange} />
+          <Form.Control
+            defaultValue={userInfo.Email}
+            name="Email"
+            type="email"
+            onChange={handleChange}
+          />
           {validationErrors.EmailErr ? (
             <span>{validationErrors.EmailErr}</span>
           ) : (
@@ -159,7 +190,16 @@ function RegistrationView({ onLoggedIn }) {
         </Form.Group>
         <Form.Group controlId="formBirthday">
           <Form.Label>Date of Birth:</Form.Label>
-          <Form.Control name="Birthday" type="date" onChange={handleChange} />
+          {userInfo.Birthday ? (
+            <Form.Control
+              defaultValue={format(new Date(userInfo.Birthday), 'yyy-MM-dd')}
+              name="Birthday"
+              type="date"
+              onChange={handleChange}
+            />
+          ) : (
+            ''
+          )}
           {validationErrors.BirthdayErr ? (
             <span>{validationErrors.BirthdayErr}</span>
           ) : (
@@ -174,8 +214,9 @@ function RegistrationView({ onLoggedIn }) {
   );
 }
 
-RegistrationView.propTypes = {
+UpdateProfile.propTypes = {
+  user: PropTypes.string.isRequired,
   onLoggedIn: PropTypes.func.isRequired,
 };
 
-export default RegistrationView;
+export default UpdateProfile;

@@ -21,7 +21,7 @@ function GenreViewAll({ movies }) {
     <div>
       <Row>
         {genreList.map((genre) => (
-          <Col lg={12} key={genre.name}>
+          <Col lg={12} key={genre._id}>
             <h2>{genre.Name}</h2>
             <p>{genre.Description}</p>
             <Link to={`/genres/${genre.Name}`}>

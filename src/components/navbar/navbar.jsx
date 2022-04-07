@@ -6,7 +6,6 @@ import Container from 'react-bootstrap/Container';
 import { Link } from 'react-router-dom';
 
 function NavbarTop({ user }) {
-  console.log(user);
   return (
     <Navbar bg="light" expand="lg">
       <Container>

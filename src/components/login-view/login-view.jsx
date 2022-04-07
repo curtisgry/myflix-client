@@ -33,7 +33,6 @@ function LoginView({ onLoggedIn }) {
   };
 
   const handleChange = (e) => {
-    console.log(e.target.name);
     if (e.target.name === 'username') {
       return setUsername(e.target.value);
     }
@@ -63,7 +62,7 @@ function LoginView({ onLoggedIn }) {
 
   return (
     <div>
-      <Link to="/users/register">Sign Up Here</Link>
+      <Link to="/register">Sign Up Here</Link>
       <Form>
         <Form.Group controlId="formUsername">
           <Form.Label>Username:</Form.Label>

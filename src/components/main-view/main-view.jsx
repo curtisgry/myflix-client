@@ -13,10 +13,12 @@ import GenreViewAll from '../genre-view-all/genre-view-all';
 import GenreView from '../genre-view/genre-view';
 import RegistrationView from '../registration-view/registration-view';
 import ProfileView from '../profile-view/profile-view';
+import UpdateProfile from '../update-profile/update-profile';
 
 export default class MainView extends Component {
   constructor() {
     super();
+    this.onLoggedIn = this.onLoggedIn.bind(this);
     this.state = {
       movies: [],
       user: null,
@@ -35,7 +37,6 @@ export default class MainView extends Component {
 
   // Updates user property in state to the logged in user
   onLoggedIn(authData) {
-    console.log(authData);
     this.setState({
       user: authData.user.Username,
     });
@@ -90,12 +91,12 @@ export default class MainView extends Component {
           />
           <Route
             exact
-            path="/users/register"
+            path="/register"
             render={() => {
               if (user) return <Redirect to="/" />;
               return (
                 <Col>
-                  <RegistrationView />
+                  <RegistrationView onLoggedIn={this.onLoggedIn} />
                 </Col>
               );
             }}
@@ -103,7 +104,7 @@ export default class MainView extends Component {
           <Route
             exact
             path="/users/:username"
-            render={({ match, history }) => {
+            render={({ history }) => {
               // If no logged in user LoginView is rendered
               if (!user)
                 return (
@@ -113,10 +114,29 @@ export default class MainView extends Component {
               if (movies.length === 0) return <div className="main-view" />;
               return (
                 <Col>
-                  <ProfileView
+                  <ProfileView history={history} movies={movies} user={user} />
+                </Col>
+              );
+            }}
+          />
+          <Route
+            exact
+            path="/users/edit/:username"
+            render={({ history }) => {
+              // If no logged in user LoginView is rendered
+              if (!user)
+                return (
+                  <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
+                );
+              // Empty container when no list is loaded
+              if (movies.length === 0) return <div className="main-view" />;
+              return (
+                <Col>
+                  <UpdateProfile
                     history={history}
                     movies={movies}
-                    user={user === match.params.username}
+                    user={user}
+                    onLoggedIn={this.onLoggedIn}
                   />
                 </Col>
               );

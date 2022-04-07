@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 
 export default class MovieView extends Component {
+
+  // Event listener example
   keyPressCallback(event) {
     console.log(event);
   }
@@ -17,6 +19,7 @@ export default class MovieView extends Component {
   componentWillUnmount() {
     document.removeEventListener("keydown", this.keyPressCallback);
   }
+  // Event listener example
 
   render() {
     const { movie, onBackClick } = this.props;
