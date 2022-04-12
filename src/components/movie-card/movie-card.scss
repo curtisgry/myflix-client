@@ -1,0 +1,13 @@
+.card-image {
+    height: 300px !important;
+    object-fit: cover;
+}
+
+.favorite-icon {
+    position: absolute;
+    width: 30px;
+    background-color: white;
+    padding: 4px;
+    margin: 4px;
+    border-radius: 50%;
+}
