@@ -5,9 +5,11 @@ import Nav from 'react-bootstrap/Nav';
 import Container from 'react-bootstrap/Container';
 import { Link } from 'react-router-dom';
 
+import './navbar.scss';
+
 function NavbarTop({ user }) {
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar className="navbar-custom" expand="lg">
       <Container>
         {/* Logo will go here */}
         <Link to="/">

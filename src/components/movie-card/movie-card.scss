@@ -1,3 +1,9 @@
+.movie-card {
+    border-radius: 10px !important;
+    border-width: 0 !important;
+    overflow: hidden;
+}
+
 .movie-card-image {
     height: 250px;
     object-fit: cover;
@@ -5,14 +11,31 @@
 
 .movie-card-title {
     padding: 15px;
+    margin: 0;
     width: 100%;
     font-size: 1rem !important;
     position: absolute;
-    bottom: 60px;
+    bottom: -9px;
     left: 0;
     color: white;
     background: rgb(2,0,36);
     background: linear-gradient(90deg, rgb(2, 0, 36) 0%, rgba(255, 255, 255, 0.648) 100%);
+    background-repeat:repeat-x;
+    transition: all 0.3s ease;
+}
+
+.movie-card-title:hover {
+    color: black;
+    background: rgb(255, 255, 255);
+    background: linear-gradient(90deg, rgb(255, 255, 255) 0%, rgba(33, 33, 33, 0.648) 100%);
+
+}
+
+
+
+.movie-open-button {
+    position: relative;
+    top: 0;
 }
 
 .favorite-icon {
@@ -25,18 +48,10 @@
     margin: 8px;
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    transition: all 0.2s ease;
+    transition: all 0.5s cubic-bezier(0,1.56,.93,-0.8);
 }
 
-.favorite-icon:hover {
-   transform: scale(1.2);
-   box-shadow: rgb(0, 255, 55) 0px 0px 6px;
-}
 
-.favorite-icon:active {
-    transform: scale(1);
-   box-shadow: rgb(0, 255, 55) 0px 0px 9px;
-}
 
 .favorite-icon-true {
     fill: #E50914;

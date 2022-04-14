@@ -23,7 +23,7 @@ function MoviesList(props) {
       </Col>
       {filteredMovies.map((m) =>
         favorites.indexOf(m._id) !== -1 ? (
-          <Col md={4} key={m._id}>
+          <Col className="mb-4" md={4} key={m._id}>
             <MovieCard movie={m} isFavorite getFavorites={getFavorites} />
           </Col>
         ) : (

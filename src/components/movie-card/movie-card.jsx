@@ -41,10 +41,10 @@ class MovieCard extends Component {
   }
 
   render() {
-    const { movie, hasDescription, variant, getFavorites } = this.props;
+    const { movie, variant, getFavorites } = this.props;
     const { isFavorite } = this.state;
     return (
-      <Card>
+      <Card className="movie-card shadow">
         {variant === 'profile' ? (
           ''
         ) : (
@@ -60,13 +60,12 @@ class MovieCard extends Component {
           src={`https://res.cloudinary.com/drghkywbx/image/upload/c_thumb,w_200/v1649103140/${movie.ImagePath}`}
           crossOrigin="anonymous"
         />
-        <Card.Body>
-          <Card.Title className="movie-card-title">{movie.Title}</Card.Title>
-          {hasDescription ? <Card.Text>{movie.Description}</Card.Text> : ''}
-          <Link to={`/movies/${movie._id}`}>
-            <Button variant="link">Open</Button>
-          </Link>
-        </Card.Body>
+
+        <Link to={`/movies/${movie._id}`}>
+          <div className="card-link-bg-animated">
+            <Card.Title className="movie-card-title">{movie.Title}</Card.Title>
+          </div>
+        </Link>
       </Card>
     );
   }
@@ -79,7 +78,6 @@ MovieCard.propTypes = {
     Description: PropTypes.string.isRequired,
     ImagePath: PropTypes.string.isRequired,
   }).isRequired,
-  hasDescription: PropTypes.bool,
   favorites: PropTypes.array.isRequired,
   variant: PropTypes.string,
   getFavorites: PropTypes.func.isRequired,

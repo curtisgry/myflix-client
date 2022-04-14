@@ -4,6 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import Container from 'react-bootstrap/Container';
 import { setMovies, setUser, setFavorites } from '../../actions/actions';
 import MoviesList from '../movies-list/movies-list';
 import MovieView from '../movie-view/movie-view';
@@ -97,234 +98,239 @@ class MainView extends Component {
     return (
       <Router>
         <NavbarTop user={user} />
-        <Row className="main-view justify-content-md-center">
-          {/* Main view for all movies */}
-          <Route
-            exact
-            path="/"
-            render={() => {
-              // If no logged in user LoginView is rendered
-              if (!user)
+        <Container>
+          <Row className="main-view justify-content-md-center">
+            {/* Main view for all movies */}
+            <Route
+              exact
+              path="/"
+              render={() => {
+                // If no logged in user LoginView is rendered
+                if (!user)
+                  return (
+                    <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
+                  );
+
+                // Empty container when no list is loaded
+                if (movies.length === 0) return <div className="main-view" />;
+
                 return (
-                  <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
-                );
-
-              // Empty container when no list is loaded
-              if (movies.length === 0) return <div className="main-view" />;
-
-              return (
-                <MoviesList
-                  movies={movies}
-                  favorites={favorites}
-                  getFavorites={this.getFavorites}
-                />
-              );
-            }}
-          />
-
-          {/* Register new User */}
-          <Route
-            exact
-            path="/register"
-            render={() => {
-              if (user) return <Redirect to="/" />;
-              return (
-                <Col>
-                  <RegistrationView onLoggedIn={this.onLoggedIn} />
-                </Col>
-              );
-            }}
-          />
-
-          {/* Login user */}
-          <Route
-            exact
-            path="/login"
-            render={() => {
-              if (user) return <Redirect to="/" />;
-              return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />;
-            }}
-          />
-
-          {/* View user profile info */}
-          <Route
-            exact
-            path="/users/:username"
-            render={({ history }) => {
-              // If no logged in user LoginView is rendered
-              if (!user)
-                return (
-                  <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
-                );
-              // Empty container when no list is loaded
-              if (movies.length === 0) return <div className="main-view" />;
-              return (
-                <Col>
-                  <ProfileView
-                    history={history}
+                  <MoviesList
                     movies={movies}
-                    user={user}
+                    favorites={favorites}
                     getFavorites={this.getFavorites}
                   />
-                </Col>
-              );
-            }}
-          />
+                );
+              }}
+            />
 
-          {/* Edit user profile */}
-          <Route
-            exact
-            path="/users/edit/:username"
-            render={({ history }) => {
-              // If no logged in user LoginView is rendered
-              if (!user)
+            {/* Register new User */}
+            <Route
+              exact
+              path="/register"
+              render={() => {
+                if (user) return <Redirect to="/" />;
+                return (
+                  <Col>
+                    <RegistrationView onLoggedIn={this.onLoggedIn} />
+                  </Col>
+                );
+              }}
+            />
+
+            {/* Login user */}
+            <Route
+              exact
+              path="/login"
+              render={() => {
+                if (user) return <Redirect to="/" />;
                 return (
                   <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
                 );
-              // Empty container when no list is loaded
-              if (movies.length === 0) return <div className="main-view" />;
-              return (
-                <Col>
-                  <UpdateProfile
-                    history={history}
-                    movies={movies}
-                    user={user}
-                    onLoggedIn={this.onLoggedIn}
-                    clearUserOnDelete={this.clearUserOnDelete}
-                  />
-                </Col>
-              );
-            }}
-          />
+              }}
+            />
 
-          {/* More info for selected movie */}
-          <Route
-            exact
-            path="/movies/:movieId"
-            render={({ match, history }) => {
-              // If no logged in user LoginView is rendered
-              if (!user)
+            {/* View user profile info */}
+            <Route
+              exact
+              path="/users/:username"
+              render={({ history }) => {
+                // If no logged in user LoginView is rendered
+                if (!user)
+                  return (
+                    <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
+                  );
+                // Empty container when no list is loaded
+                if (movies.length === 0) return <div className="main-view" />;
                 return (
-                  <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
+                  <Col>
+                    <ProfileView
+                      history={history}
+                      movies={movies}
+                      user={user}
+                      getFavorites={this.getFavorites}
+                    />
+                  </Col>
                 );
-              // Empty container when no list is loaded
-              if (movies.length === 0) return <div className="main-view" />;
-              return (
-                <Col md={8}>
-                  <MovieView
-                    movie={movies.find((m) => m._id === match.params.movieId)}
-                    onBackClick={() => history.goBack()}
-                    getFavorites={this.getFavorites}
-                  />
-                </Col>
-              );
-            }}
-          />
+              }}
+            />
 
-          {/* View all directors with info */}
-          <Route
-            exact
-            path="/directors"
-            render={({ history }) => {
-              // If no logged in user LoginView is rendered
-              if (!user)
+            {/* Edit user profile */}
+            <Route
+              exact
+              path="/users/edit/:username"
+              render={({ history }) => {
+                // If no logged in user LoginView is rendered
+                if (!user)
+                  return (
+                    <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
+                  );
+                // Empty container when no list is loaded
+                if (movies.length === 0) return <div className="main-view" />;
                 return (
-                  <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
+                  <Col>
+                    <UpdateProfile
+                      history={history}
+                      movies={movies}
+                      user={user}
+                      onLoggedIn={this.onLoggedIn}
+                      clearUserOnDelete={this.clearUserOnDelete}
+                    />
+                  </Col>
                 );
-              // Empty container when no list is loaded
-              if (movies.length === 0) return <div className="main-view" />;
-              return (
-                <Col md={8}>
-                  <DirectorsViewAll
-                    movies={movies}
-                    onBackClick={() => history.goBack()}
-                  />
-                </Col>
-              );
-            }}
-          />
+              }}
+            />
 
-          {/* View all genres with info */}
-          <Route
-            exact
-            path="/genres"
-            render={({ history }) => {
-              // If no logged in user LoginView is rendered
-              if (!user)
+            {/* More info for selected movie */}
+            <Route
+              exact
+              path="/movies/:movieId"
+              render={({ match, history }) => {
+                // If no logged in user LoginView is rendered
+                if (!user)
+                  return (
+                    <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
+                  );
+                // Empty container when no list is loaded
+                if (movies.length === 0) return <div className="main-view" />;
                 return (
-                  <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
+                  <Col md={8}>
+                    <MovieView
+                      movie={movies.find((m) => m._id === match.params.movieId)}
+                      onBackClick={() => history.goBack()}
+                      getFavorites={this.getFavorites}
+                    />
+                  </Col>
                 );
-              // Empty container when no list is loaded
-              if (movies.length === 0) return <div className="main-view" />;
-              return (
-                <Col md={8}>
-                  <GenreViewAll
-                    movies={movies}
-                    onBackClick={() => history.goBack()}
-                  />
-                </Col>
-              );
-            }}
-          />
+              }}
+            />
 
-          {/* View movies in a genre */}
-          <Route
-            exact
-            path="/genres/:name"
-            render={({ match, history }) => {
-              // If no logged in user LoginView is rendered
-              if (!user)
+            {/* View all directors with info */}
+            <Route
+              exact
+              path="/directors"
+              render={({ history }) => {
+                // If no logged in user LoginView is rendered
+                if (!user)
+                  return (
+                    <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
+                  );
+                // Empty container when no list is loaded
+                if (movies.length === 0) return <div className="main-view" />;
                 return (
-                  <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
+                  <Col md={8}>
+                    <DirectorsViewAll
+                      movies={movies}
+                      onBackClick={() => history.goBack()}
+                    />
+                  </Col>
                 );
-              // Empty container when no list is loaded
-              if (movies.length === 0) return <div className="main-view" />;
-              return (
-                <Col md={8}>
-                  <GenreView
-                    movies={movies.filter(
-                      (m) => m.Genre.Name === match.params.name
-                    )}
-                    genre={
-                      movies.find((m) => m.Genre.Name === match.params.name)
-                        .Genre
-                    }
-                    onBackClick={() => history.goBack()}
-                  />
-                </Col>
-              );
-            }}
-          />
+              }}
+            />
 
-          {/* View movies by a director */}
-          <Route
-            exact
-            path="/directors/:name"
-            render={({ match, history }) => {
-              // If no logged in user LoginView is rendered
-              if (!user)
+            {/* View all genres with info */}
+            <Route
+              exact
+              path="/genres"
+              render={({ history }) => {
+                // If no logged in user LoginView is rendered
+                if (!user)
+                  return (
+                    <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
+                  );
+                // Empty container when no list is loaded
+                if (movies.length === 0) return <div className="main-view" />;
                 return (
-                  <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
+                  <Col md={8}>
+                    <GenreViewAll
+                      movies={movies}
+                      onBackClick={() => history.goBack()}
+                    />
+                  </Col>
                 );
-              // Empty container when no list is loaded
-              if (movies.length === 0) return <div className="main-view" />;
-              return (
-                <Col md={8}>
-                  <DirectorView
-                    director={
-                      movies.find((m) => m.Director.Name === match.params.name)
-                        .Director
-                    }
-                    directorMovies={movies.filter(
-                      (m) => m.Director.Name === match.params.name
-                    )}
-                    onBackClick={() => history.goBack()}
-                  />
-                </Col>
-              );
-            }}
-          />
-        </Row>
+              }}
+            />
+
+            {/* View movies in a genre */}
+            <Route
+              exact
+              path="/genres/:name"
+              render={({ match, history }) => {
+                // If no logged in user LoginView is rendered
+                if (!user)
+                  return (
+                    <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
+                  );
+                // Empty container when no list is loaded
+                if (movies.length === 0) return <div className="main-view" />;
+                return (
+                  <Col md={8}>
+                    <GenreView
+                      movies={movies.filter(
+                        (m) => m.Genre.Name === match.params.name
+                      )}
+                      genre={
+                        movies.find((m) => m.Genre.Name === match.params.name)
+                          .Genre
+                      }
+                      onBackClick={() => history.goBack()}
+                    />
+                  </Col>
+                );
+              }}
+            />
+
+            {/* View movies by a director */}
+            <Route
+              exact
+              path="/directors/:name"
+              render={({ match, history }) => {
+                // If no logged in user LoginView is rendered
+                if (!user)
+                  return (
+                    <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
+                  );
+                // Empty container when no list is loaded
+                if (movies.length === 0) return <div className="main-view" />;
+                return (
+                  <Col md={8}>
+                    <DirectorView
+                      director={
+                        movies.find(
+                          (m) => m.Director.Name === match.params.name
+                        ).Director
+                      }
+                      directorMovies={movies.filter(
+                        (m) => m.Director.Name === match.params.name
+                      )}
+                      onBackClick={() => history.goBack()}
+                    />
+                  </Col>
+                );
+              }}
+            />
+          </Row>
+        </Container>
       </Router>
     );
   }
