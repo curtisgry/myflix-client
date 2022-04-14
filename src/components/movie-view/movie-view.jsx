@@ -1,40 +1,47 @@
 /* eslint-disable */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import axios from "axios";
 import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
 import { Button, Badge } from "react-bootstrap";
+import FavoriteToggle from '../movie-card/favorite-toggle';
+import { connect } from "react-redux";
 
-export default class MovieView extends Component {
-
-  constructor(){
+class MovieView extends Component {
+  constructor() {
     super();
     this.state = {
-      favoriteSuccess: false
+      isFavorite: false,
+    };
+  }
+
+  componentDidMount() {
+    this.checkIsFavorite();
+  }
+
+  componentDidUpdate(prevProps) {
+    const { favorites } = this.props;
+    if (prevProps.favorites === favorites) return;
+    this.checkIsFavorite();
+  }
+
+  // Check movie id is in current favorites list from redux
+  checkIsFavorite() {
+    const { movie, favorites } = this.props;
+    if (favorites.indexOf(movie._id) !== -1) {
+      this.setState({
+        isFavorite: true,
+      });
+    } else {
+      this.setState({
+        isFavorite: false,
+      });
     }
   }
-
-  addToFavorites(user, movie){
-    const userToken = localStorage.getItem('token');
-    axios.post(`https://myflix-api-cgray.herokuapp.com/users/${user}/movies/${movie._id}`, null, {
-      headers: { Authorization: `Bearer ${userToken}` }
-    })
-    .then(()=> {
-      this.setState({
-        favoriteSuccess: true
-      })
-    })
-    .catch((e)=> {
-      console.log('Something went wrong' + e)
-    })
-  }
-
- 
-
   render() {
-    const { movie, onBackClick, user } = this.props;
+    const { movie, onBackClick, user, getFavorites } = this.props;
     
+    const {isFavorite} = this.state
 
     return (
       <>
@@ -59,8 +66,7 @@ export default class MovieView extends Component {
             <Button variant="link" onClick={() => onBackClick()}>
               Back
             </Button>
-            <Button variant="success" onClick={() => this.addToFavorites(user, movie)}>Add to favorites</Button>
-            {this.state.favoriteSuccess ? <Badge bg="success">Success!</Badge> : ''}
+          <FavoriteToggle isFavorite={isFavorite} movieId={movie._id} user={user} getFavorites={getFavorites}/>
           </Card.Body>
         </Card>
       </>
@@ -69,3 +75,9 @@ export default class MovieView extends Component {
 }
 
 
+const mapStateToProps = (state) => {
+  const {favorites, user} = state;
+  return{favorites, user}
+}
+
+export default connect(mapStateToProps)(MovieView)

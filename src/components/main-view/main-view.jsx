@@ -214,7 +214,7 @@ class MainView extends Component {
                   <MovieView
                     movie={movies.find((m) => m._id === match.params.movieId)}
                     onBackClick={() => history.goBack()}
-                    user={user}
+                    getFavorites={this.getFavorites}
                   />
                 </Col>
               );
