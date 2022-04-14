@@ -5,7 +5,7 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import MovieCard from '../movie-card/movie-card';
 
-function FavoriteList({ favoriteMovies, getFavorites, getUserInfo }) {
+function FavoriteList({ favoriteMovies, removeFavorite }) {
   return (
     <>
       <h3>Favorites List</h3>
@@ -14,13 +14,11 @@ function FavoriteList({ favoriteMovies, getFavorites, getUserInfo }) {
       ) : (
         <Row>
           {favoriteMovies.map((movie) => (
-            <Col md={3} key={movie._id}>
-              <MovieCard
-                movie={movie}
-                isFavorite
-                getFavorites={getFavorites}
-                getUserInfo={getUserInfo}
-              />
+            <Col md={4} key={movie._id}>
+              <MovieCard movie={movie} variant="profile" />
+              <Button variant="link" onClick={() => removeFavorite(movie._id)}>
+                X
+              </Button>
             </Col>
           ))}
         </Row>
@@ -31,6 +29,7 @@ function FavoriteList({ favoriteMovies, getFavorites, getUserInfo }) {
 
 FavoriteList.propTypes = {
   favoriteMovies: PropTypes.array,
+  removeFavorite: PropTypes.func.isRequired,
 };
 
 export default FavoriteList;

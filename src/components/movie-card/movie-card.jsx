@@ -9,16 +9,26 @@ import './movie-card.scss';
 
 export default class MovieCard extends Component {
   render() {
-    const { movie, hasDescription, isFavorite, getFavorites, getUserInfo } =
-      this.props;
+    const {
+      movie,
+      hasDescription,
+      isFavorite,
+      getFavorites,
+      getUserInfo,
+      variant,
+    } = this.props;
     return (
       <Card>
-        <FavoriteToggle
-          isFavorite={isFavorite}
-          movieId={movie._id}
-          getFavorites={getFavorites}
-          getUserInfo={getUserInfo}
-        />
+        {variant === 'profile' ? (
+          ''
+        ) : (
+          <FavoriteToggle
+            isFavorite={isFavorite}
+            movieId={movie._id}
+            getFavorites={getFavorites}
+            getUserInfo={getUserInfo}
+          />
+        )}
         <img
           className="card-image"
           alt={`A marketing poster for the movie ${movie.Title}`}

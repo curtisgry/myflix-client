@@ -6,7 +6,6 @@ import { addFavorite, removeFavorite } from '../../actions/actions';
 function FavoriteToggle({
   isFavorite,
   movieId,
-
   user,
   getFavorites,
   getUserInfo,

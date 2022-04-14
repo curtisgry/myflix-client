@@ -28,6 +28,21 @@ function ProfileView({ user, movies, getFavorites }) {
     getUserInfo();
   }, []);
 
+  const removeFavorite = (movieId) => {
+    const userToken = localStorage.getItem('token');
+    axios
+      .delete(
+        `https://myflix-api-cgray.herokuapp.com/users/${user}/movies/${movieId}`,
+        {
+          headers: { Authorization: `Bearer ${userToken}` },
+        }
+      )
+      .then(() => {
+        getUserInfo();
+        getFavorites(userToken);
+      });
+  };
+
   return (
     <>
       <Link to={`/users/edit/${user}`}>
@@ -40,8 +55,7 @@ function ProfileView({ user, movies, getFavorites }) {
             favoriteMovies={movies.filter(
               (movie) => userInfo.FavoriteMovies.indexOf(movie._id) !== -1
             )}
-            getFavorites={getFavorites}
-            getUserInfo={getUserInfo}
+            removeFavorite={removeFavorite}
           />
         </>
       ) : (
