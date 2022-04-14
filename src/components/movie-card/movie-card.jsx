@@ -2,15 +2,23 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-
 import { Link } from 'react-router-dom';
+import FavoriteToggle from './favorite-toggle';
+
 import './movie-card.scss';
 
 export default class MovieCard extends Component {
   render() {
-    const { movie, hasDescription } = this.props;
+    const { movie, hasDescription, isFavorite, getFavorites, getUserInfo } =
+      this.props;
     return (
       <Card>
+        <FavoriteToggle
+          isFavorite={isFavorite}
+          movieId={movie._id}
+          getFavorites={getFavorites}
+          getUserInfo={getUserInfo}
+        />
         <img
           className="card-image"
           alt={`A marketing poster for the movie ${movie.Title}`}

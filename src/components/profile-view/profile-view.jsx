@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import FavoriteList from './favorite-list';
 import UserInfo from './user-info';
 
-function ProfileView({ user, movies }) {
+function ProfileView({ user, movies, getFavorites }) {
   const [userInfo, setUserInfo] = useState(null);
 
   const getUserInfo = () => {
@@ -28,20 +28,6 @@ function ProfileView({ user, movies }) {
     getUserInfo();
   }, []);
 
-  const removeFavorite = (movieId) => {
-    const userToken = localStorage.getItem('token');
-    axios
-      .delete(
-        `https://myflix-api-cgray.herokuapp.com/users/${user}/movies/${movieId}`,
-        {
-          headers: { Authorization: `Bearer ${userToken}` },
-        }
-      )
-      .then(() => {
-        getUserInfo();
-      });
-  };
-
   return (
     <>
       <Link to={`/users/edit/${user}`}>
@@ -54,7 +40,8 @@ function ProfileView({ user, movies }) {
             favoriteMovies={movies.filter(
               (movie) => userInfo.FavoriteMovies.indexOf(movie._id) !== -1
             )}
-            removeFavorite={removeFavorite}
+            getFavorites={getFavorites}
+            getUserInfo={getUserInfo}
           />
         </>
       ) : (

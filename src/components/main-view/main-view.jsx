@@ -4,7 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { setMovies } from '../../actions/actions';
+import { setMovies, setUser, setFavorites } from '../../actions/actions';
 import MoviesList from '../movies-list/movies-list';
 import MovieView from '../movie-view/movie-view';
 import LoginView from '../login-view/login-view';
@@ -21,31 +21,32 @@ class MainView extends Component {
   constructor() {
     super();
     this.onLoggedIn = this.onLoggedIn.bind(this);
+    this.getFavorites = this.getFavorites.bind(this);
     this.clearUserOnDelete = this.clearUserOnDelete.bind(this);
-    this.state = {
-      user: null,
-    };
   }
 
   componentDidMount() {
     const accessToken = localStorage.getItem('token');
     if (accessToken !== null) {
-      this.setState({
-        user: localStorage.getItem('user'),
-      });
+      const { setUser } = this.props;
+      setUser(localStorage.getItem('user'));
+
       this.getMovies(accessToken);
+      console.log('after getmoives');
+      this.getFavorites(accessToken);
     }
   }
 
   // Updates user property in state to the logged in user
   onLoggedIn(authData) {
-    this.setState({
-      user: authData.user.Username,
-    });
+    const { setUser } = this.props;
+
+    setUser(authData.user.Username);
 
     localStorage.setItem('token', authData.token);
     localStorage.setItem('user', authData.user.Username);
     this.getMovies(authData.token);
+    this.getFavorites(authData.token);
   }
 
   // Get movie list and update state with user authentication from Bearer Token
@@ -63,16 +64,36 @@ class MainView extends Component {
       });
   }
 
+  getFavorites(userToken) {
+    const loggedInUser = localStorage.getItem('user');
+    console.log('yuser', loggedInUser);
+    console.log('in get');
+    if (loggedInUser) {
+      console.log('in if user');
+      axios
+        .get(`https://myflix-api-cgray.herokuapp.com/users/${loggedInUser}`, {
+          headers: { Authorization: `Bearer ${userToken}` },
+        })
+        .then((res) => {
+          const { setFavorites } = this.props;
+          console.log('resdata', res.data);
+          setFavorites(res.data.FavoriteMovies);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  }
+
   // Remove user from state when deleted from the edit view
   clearUserOnDelete() {
-    this.setState({
-      user: null,
-    });
+    localStorage.clear();
   }
 
   render() {
-    const { movies } = this.props;
-    const { user } = this.state;
+    const { movies, user, favorites } = this.props;
+    console.log(favorites);
+    console.log('rendered main');
     return (
       <Router>
         <NavbarTop user={user} />
@@ -91,7 +112,13 @@ class MainView extends Component {
               // Empty container when no list is loaded
               if (movies.length === 0) return <div className="main-view" />;
 
-              return <MoviesList movies={movies} />;
+              return (
+                <MoviesList
+                  movies={movies}
+                  favorites={favorites}
+                  getFavorites={this.getFavorites}
+                />
+              );
             }}
           />
 
@@ -133,7 +160,12 @@ class MainView extends Component {
               if (movies.length === 0) return <div className="main-view" />;
               return (
                 <Col>
-                  <ProfileView history={history} movies={movies} user={user} />
+                  <ProfileView
+                    history={history}
+                    movies={movies}
+                    user={user}
+                    getFavorites={this.getFavorites}
+                  />
                 </Col>
               );
             }}
@@ -298,6 +330,12 @@ class MainView extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({ movies: state.movies });
+const mapStateToProps = (state) => ({
+  movies: state.movies,
+  user: state.user,
+  favorites: state.favorites,
+});
 
-export default connect(mapStateToProps, { setMovies })(MainView);
+export default connect(mapStateToProps, { setMovies, setUser, setFavorites })(
+  MainView
+);
