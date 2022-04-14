@@ -3,6 +3,8 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { addFavorite, removeFavorite } from '../../actions/actions';
 
+import './movie-card.scss';
+
 function FavoriteToggle({
   isFavorite,
   movieId,
@@ -54,7 +56,11 @@ function FavoriteToggle({
   return (
     <div>
       {!isFavorite ? (
-        <button type="button" onClick={addToFavorites}>
+        <button
+          className="favorite-toggle"
+          type="button"
+          onClick={addToFavorites}
+        >
           <img
             alt="a small heart icon to indicate a movie on your favorites list"
             className="favorite-icon"
@@ -63,7 +69,11 @@ function FavoriteToggle({
           />
         </button>
       ) : (
-        <button type="button" onClick={removeFromFavorites}>
+        <button
+          className="favorite-toggle"
+          type="button"
+          onClick={removeFromFavorites}
+        >
           <img
             alt="a small heart icon to indicate a movie on your favorites list"
             className="favorite-icon"
