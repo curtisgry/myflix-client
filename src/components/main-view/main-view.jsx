@@ -5,7 +5,13 @@ import Col from 'react-bootstrap/Col';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Container from 'react-bootstrap/Container';
-import { setMovies, setUser, setFavorites } from '../../actions/actions';
+import {
+  setMovies,
+  setUser,
+  setFavorites,
+  setDirectors,
+  setGenres,
+} from '../../actions/actions';
 import MoviesList from '../movies-list/movies-list';
 import MovieView from '../movie-view/movie-view';
 import LoginView from '../login-view/login-view';
@@ -17,6 +23,7 @@ import GenreView from '../genre-view/genre-view';
 import RegistrationView from '../registration-view/registration-view';
 import ProfileView from '../profile-view/profile-view';
 import UpdateProfile from '../update-profile/update-profile';
+import separateData from '../../lib/separateData';
 
 class MainView extends Component {
   constructor() {
@@ -59,6 +66,10 @@ class MainView extends Component {
       .then((res) => {
         const { setMovies } = this.props;
         setMovies(res.data);
+        const directors = separateData('Director', res.data);
+        setDirectors(directors);
+        const genres = separateData('Genre', res.data);
+        setGenres(genres);
       })
       .catch((err) => {
         console.log(err);
@@ -67,8 +78,6 @@ class MainView extends Component {
 
   getFavorites(userToken) {
     const loggedInUser = localStorage.getItem('user');
-    console.log('yuser', loggedInUser);
-    console.log('in get');
     if (loggedInUser) {
       console.log('in if user');
       axios
@@ -92,8 +101,8 @@ class MainView extends Component {
   }
 
   render() {
-    const { movies, user, favorites } = this.props;
-    console.log(favorites);
+    const { movies, user, favorites, genres } = this.props;
+    console.log('gemre', genres);
     console.log('rendered main');
     return (
       <Router>
@@ -342,8 +351,13 @@ const mapStateToProps = (state) => ({
   movies: state.movies,
   user: state.user,
   favorites: state.favorites,
+  genres: state.genres,
 });
 
-export default connect(mapStateToProps, { setMovies, setUser, setFavorites })(
-  MainView
-);
+export default connect(mapStateToProps, {
+  setMovies,
+  setUser,
+  setFavorites,
+  setDirectors,
+  setGenres,
+})(MainView);

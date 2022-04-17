@@ -4,6 +4,7 @@ import { Button } from 'react-bootstrap';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import './genre-view-all.scss';
 
@@ -41,4 +42,9 @@ GenreViewAll.propTypes = {
   movies: PropTypes.array.isRequired,
 };
 
-export default GenreViewAll;
+const mapStateToProps = (state) => {
+  const { genres } = state;
+  return { genres };
+};
+
+export default connect(mapStateToProps)(GenreViewAll);
