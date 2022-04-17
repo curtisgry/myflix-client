@@ -10,7 +10,8 @@ import './genre-view.scss';
 function GenreView({ movies, genre, genres, onBackClick, getFavorites }) {
   const { name } = useParams();
   return (
-    <div>
+    <div className="content">
+      <h2 className="genre-page-heading">Genres</h2>
       <div className="genre-tab-list">
         {genres.map((gen) => (
           <Link to={`/genres/${gen.Name}`} key={gen.Name}>
@@ -29,7 +30,7 @@ function GenreView({ movies, genre, genres, onBackClick, getFavorites }) {
       </div>
       <Row>
         {movies.map((movie) => (
-          <Col md={3} key={movie._id}>
+          <Col className="mb-4" md={4} key={movie._id}>
             <MovieCard
               movie={movie}
               getFavorites={getFavorites}

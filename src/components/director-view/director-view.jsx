@@ -18,7 +18,8 @@ function DirectorView({
 }) {
   const { name } = useParams();
   return (
-    <div>
+    <div className="content">
+      <h2 className="director-page-heading">Directors</h2>
       <div className="director-tab-list">
         {directors.map((dir) => (
           <Link to={`/directors/${dir.Name}`} key={dir.Name}>
@@ -37,7 +38,7 @@ function DirectorView({
       </div>
       <Row>
         {directorMovies.map((movie) => (
-          <Col md={3} key={movie._id}>
+          <Col md={4} key={movie._id}>
             <MovieCard
               movie={movie}
               getFavorites={getFavorites}

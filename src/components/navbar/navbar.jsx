@@ -21,10 +21,10 @@ function NavbarTop({ user }) {
             <Link to="/">
               <Nav.Link as="li">All</Nav.Link>
             </Link>
-            <Link to="/genres">
+            <Link to="/genres/Action">
               <Nav.Link as="li">Genres</Nav.Link>
             </Link>
-            <Link to="/directors">
+            <Link to="/directors/Christopher Nolan">
               <Nav.Link as="li">Directors</Nav.Link>
             </Link>
           </Nav>

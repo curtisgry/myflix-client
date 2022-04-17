@@ -7,6 +7,8 @@ import { Button, Badge } from "react-bootstrap";
 import FavoriteToggle from '../movie-card/favorite-toggle';
 import { connect } from "react-redux";
 
+import './movie-view.scss'
+
 class MovieView extends Component {
   constructor() {
     super();
@@ -45,11 +47,10 @@ class MovieView extends Component {
 
     return (
       <>
-        <Card>
+        <Card className="movie-view-card ">
           <Card.Img
-            className="movie-poster"
             variant="top"
-            src={`https://res.cloudinary.com/drghkywbx/image/upload/v1649103136/${movie.ImagePath}`}
+            src={`https://res.cloudinary.com/drghkywbx/image/upload/c_scale,h_809/v1649103136/${movie.ImagePath}`}
             crossOrigin="anonymous"
           />
           <Card.Body>

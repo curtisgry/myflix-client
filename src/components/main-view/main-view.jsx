@@ -223,7 +223,7 @@ class MainView extends Component {
                 // Empty container when no list is loaded
                 if (movies.length === 0) return <div className="main-view" />;
                 return (
-                  <Col md={8}>
+                  <Col md={4}>
                     <MovieView
                       movie={movies.find((m) => m._id === match.params.movieId)}
                       onBackClick={() => history.goBack()}
