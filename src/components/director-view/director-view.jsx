@@ -3,30 +3,33 @@ import PropTypes from 'prop-types';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import { Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { connect } from 'react-redux';
 import MovieCard from '../movie-card/movie-card';
 
 import './director-view.scss';
 
-function DirectorView({ director, directorMovies, onBackClick, getFavorites }) {
+function DirectorView({
+  director,
+  directors,
+  directorMovies,
+  onBackClick,
+  getFavorites,
+}) {
+  const { name } = useParams();
   return (
     <div>
       <div className="director-tab-list">
-        <Link to="/directors/Christopher Nolan">
-          <button type="button">Christopher Nolan</button>
-        </Link>
-        <Link to="/directors/Denis Villeneuve">
-          <button type="button">Denis Villeneuve</button>
-        </Link>
-        <Link to="/directors/Steven Spielberg">
-          <button type="button">Steven Spielberg</button>
-        </Link>
-        <Link to="/directors/Adam McKay">
-          <button type="button">Adam McKay</button>
-        </Link>
-        <Link to="/directors/George Lucas">
-          <button type="button">George Lucas</button>
-        </Link>
+        {directors.map((dir) => (
+          <Link to={`/directors/${dir.Name}`} key={dir.Name}>
+            <button
+              className={dir.Name === name ? 'selected-director' : ''}
+              type="button"
+            >
+              {dir.Name}
+            </button>
+          </Link>
+        ))}
       </div>
       <div className="director-info">
         <h2>{director.Name}</h2>
@@ -51,6 +54,7 @@ function DirectorView({ director, directorMovies, onBackClick, getFavorites }) {
 }
 
 DirectorView.propTypes = {
+  directors: PropTypes.array.isRequired,
   director: PropTypes.shape({
     Name: PropTypes.string.isRequired,
     Bio: PropTypes.string.isRequired,
@@ -60,4 +64,9 @@ DirectorView.propTypes = {
   getFavorites: PropTypes.func.isRequired,
 };
 
-export default DirectorView;
+const mapStateToProps = (state) => {
+  const { directors } = state;
+  return { directors };
+};
+
+export default connect(mapStateToProps)(DirectorView);

@@ -1,19 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, Row, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import MovieCard from '../movie-card/movie-card';
 
 import './genre-view.scss';
 
 function GenreView({ movies, genre, genres, onBackClick, getFavorites }) {
+  const { name } = useParams();
   return (
     <div>
       <div className="genre-tab-list">
         {genres.map((gen) => (
           <Link to={`/genres/${gen.Name}`} key={gen.Name}>
-            <button type="button">{gen.Name}</button>
+            <button
+              className={name === gen.Name ? 'selected-genre' : ''}
+              type="button"
+            >
+              {gen.Name}
+            </button>
           </Link>
         ))}
       </div>

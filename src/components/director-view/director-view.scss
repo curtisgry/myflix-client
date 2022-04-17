@@ -4,6 +4,9 @@
     display: flex;
     flex-wrap: wrap;
     height: 100px;
+    .selected-director {
+        background-color: #F10086;
+    }
     button {
         color: white;
         background-color: #711A75;
@@ -12,6 +15,8 @@
         padding: 4px 18px;
     } 
 }
+
+
 
 .director-info {
     padding: 1rem;
