@@ -106,7 +106,7 @@ class MainView extends Component {
     console.log('rendered main');
     return (
       <Router>
-        <NavbarTop user={user} />
+        {user ? <NavbarTop user={user} /> : ''}
         <Container>
           <Row className="main-view justify-content-md-center">
             {/* Main view for all movies */}
