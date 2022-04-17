@@ -1,0 +1,23 @@
+.form-main {
+    height: 592px;
+    animation: slide 0.2s ease forwards;
+}
+
+.form-item {
+    height: 100px;
+}
+
+.register-error {
+    color: #FF6B6B;
+}
+
+.form-register {
+    background-color: #180A0A;
+    padding: 3rem;
+}
+
+.loading-spinner {
+    position: absolute;
+    right: 240px;
+    bottom: 60px;
+}

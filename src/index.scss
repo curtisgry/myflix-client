@@ -20,3 +20,14 @@ input {
 .content {
     margin-top: 2rem;
 }
+
+@keyframes slide {
+    from {
+        transform: translateX(200px)
+    }
+ 
+    to {
+        transform: translateX(0)
+    }
+
+}

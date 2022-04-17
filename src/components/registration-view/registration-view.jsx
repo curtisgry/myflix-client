@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Form from 'react-bootstrap/Form';
+import Spinner from 'react-bootstrap/Spinner';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 
 import './registration-view.scss';
+import { Link } from 'react-router-dom';
 
 function RegistrationView({ onLoggedIn }) {
   const [userInfo, setUserInfo] = useState({
@@ -20,6 +22,8 @@ function RegistrationView({ onLoggedIn }) {
     EmailErr: '',
     BirthdayErr: '',
   });
+
+  const [isLoading, setIsLoading] = useState(false);
 
   // Returns false when empty and true when not empty
   // isReq should be an updateable variable from upper scope
@@ -88,8 +92,10 @@ function RegistrationView({ onLoggedIn }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const isReq = validate();
     if (!isReq) {
+      setIsLoading(false);
       console.log('Validation errors present');
       return;
     }
@@ -119,60 +125,63 @@ function RegistrationView({ onLoggedIn }) {
           });
       })
       .catch((e) => {
+        setIsLoading(false);
         console.log('Something went wrong: ', e);
       });
   };
 
   return (
-    <>
-      <h2>Sign Up</h2>
-      <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="formUsername">
-          <Form.Label>Username:</Form.Label>
-          <Form.Control name="Username" type="text" onChange={handleChange} />
-          {validationErrors.UsernameErr ? (
-            <span>{validationErrors.UsernameErr}</span>
-          ) : (
-            ''
-          )}
-        </Form.Group>
+    <Form className="form-main" onSubmit={handleSubmit}>
+      <Form.Group className="form-item" controlId="formUsername">
+        <Form.Label>Username:</Form.Label>
+        <Form.Control name="Username" type="text" onChange={handleChange} />
+        {validationErrors.UsernameErr ? (
+          <span className="register-error">{validationErrors.UsernameErr}</span>
+        ) : (
+          ''
+        )}
+      </Form.Group>
 
-        <Form.Group controlId="formPassword">
-          <Form.Label>Password:</Form.Label>
-          <Form.Control
-            name="Password"
-            type="password"
-            onChange={handleChange}
-          />
-          {validationErrors.PasswordErr ? (
-            <span>{validationErrors.PasswordErr}</span>
-          ) : (
-            ''
-          )}
-        </Form.Group>
-        <Form.Group controlId="formEmail">
-          <Form.Label>Email:</Form.Label>
-          <Form.Control name="Email" type="email" onChange={handleChange} />
-          {validationErrors.EmailErr ? (
-            <span>{validationErrors.EmailErr}</span>
-          ) : (
-            ''
-          )}
-        </Form.Group>
-        <Form.Group controlId="formBirthday">
-          <Form.Label>Date of Birth:</Form.Label>
-          <Form.Control name="Birthday" type="date" onChange={handleChange} />
-          {validationErrors.BirthdayErr ? (
-            <span>{validationErrors.BirthdayErr}</span>
-          ) : (
-            ''
-          )}
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Submit
+      <Form.Group className="form-item" controlId="formPassword">
+        <Form.Label>Password:</Form.Label>
+        <Form.Control name="Password" type="password" onChange={handleChange} />
+        {validationErrors.PasswordErr ? (
+          <span className="register-error">{validationErrors.PasswordErr}</span>
+        ) : (
+          ''
+        )}
+      </Form.Group>
+      <Form.Group className="form-item" controlId="formEmail">
+        <Form.Label>Email:</Form.Label>
+        <Form.Control name="Email" type="email" onChange={handleChange} />
+        {validationErrors.EmailErr ? (
+          <span className="register-error">{validationErrors.EmailErr}</span>
+        ) : (
+          ''
+        )}
+      </Form.Group>
+      <Form.Group className="form-item" controlId="formBirthday">
+        <Form.Label>Date of Birth:</Form.Label>
+        <Form.Control name="Birthday" type="date" onChange={handleChange} />
+        {validationErrors.BirthdayErr ? (
+          <span className="register-error">{validationErrors.BirthdayErr}</span>
+        ) : (
+          ''
+        )}
+      </Form.Group>
+      <Link to="/">
+        <Button className="sign-up" variant="link">
+          Already have an account?
         </Button>
-      </Form>
-    </>
+      </Link>
+
+      <Button variant="primary" type="submit">
+        Submit
+      </Button>
+      <div className="loading-spinner">
+        {isLoading ? <Spinner animation="border" variant="light" /> : ''}
+      </div>
+    </Form>
   );
 }
 

@@ -7,70 +7,13 @@ import { Link, useLocation } from 'react-router-dom';
 import { Col } from 'react-bootstrap';
 import PosterSlider from '../poster-slider/poster-slider';
 
-import './login-view.scss';
+import './start-view.scss';
+import LoginView from '../login-view/login-view';
+import RegistrationView from '../registration-view/registration-view';
 
 function StartView({ onLoggedIn }) {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-
-  const [usernameErr, setUsernameErr] = useState('');
-  const [passwordErr, setPasswordErr] = useState('');
-  const [loginErr, setLoginErr] = useState('');
 
   const location = useLocation();
-
-  const validate = () => {
-    // Reset errors when validate runs
-    setUsernameErr('');
-    setPasswordErr('');
-
-    let isReq = true;
-    if (!username) {
-      setUsernameErr('Username Required');
-      isReq = false;
-    } else if (username.length < 2) {
-      setUsernameErr('Username must be at least 2 characters long');
-      isReq = false;
-    }
-    if (!password) {
-      setPasswordErr('Password Required');
-      isReq = false;
-    } else if (password.length < 6) {
-      setPasswordErr('Password must be at least 6 characters');
-      isReq = false;
-    }
-
-    return isReq;
-  };
-
-  const handleChange = (e) => {
-    if (e.target.name === 'username') {
-      return setUsername(e.target.value);
-    }
-    setPassword(e.target.value);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Check form validation returns boolean
-    const isReq = validate();
-    if (isReq) {
-      // Send authentication request to the server
-      axios
-        .post('https://myflix-api-cgray.herokuapp.com/login', {
-          Username: username,
-          Password: password,
-        })
-        .then((response) => {
-          const { data } = response;
-          onLoggedIn(data);
-        })
-        .catch(() => {
-          setLoginErr('Username or Password is incorrect');
-          console.log('No user found');
-        });
-    }
-  };
 
   return (
     <>
@@ -82,6 +25,11 @@ function StartView({ onLoggedIn }) {
         </div>
         <div className="login-page-container">
           <h1 className="login-page-logo">myFlix</h1>
+          {location.pathname.includes('/register') ? (
+            <RegistrationView onLoggedIn={onLoggedIn} />
+          ) : (
+            <LoginView onLoggedIn={onLoggedIn} />
+          )}
         </div>
       </div>
     </>

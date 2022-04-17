@@ -14,7 +14,7 @@ import {
 } from '../../actions/actions';
 import MoviesList from '../movies-list/movies-list';
 import MovieView from '../movie-view/movie-view';
-import LoginView from '../login-view/login-view';
+import StartView from '../start-view/start-view';
 import DirectorView from '../director-view/director-view';
 import NavbarTop from '../navbar/navbar';
 import DirectorsViewAll from '../directors-view-all/directors-view-all';
@@ -114,10 +114,10 @@ class MainView extends Component {
               exact
               path="/"
               render={() => {
-                // If no logged in user LoginView is rendered
+                // If no logged in user StartView is rendered
                 if (!user)
                   return (
-                    <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
+                    <StartView onLoggedIn={(user) => this.onLoggedIn(user)} />
                   );
 
                 // Empty container when no list is loaded
@@ -141,7 +141,7 @@ class MainView extends Component {
                 if (user) return <Redirect to="/" />;
                 return (
                   <Col>
-                    <RegistrationView onLoggedIn={this.onLoggedIn} />
+                    <StartView onLoggedIn={this.onLoggedIn} />
                   </Col>
                 );
               }}
@@ -154,7 +154,7 @@ class MainView extends Component {
               render={() => {
                 if (user) return <Redirect to="/" />;
                 return (
-                  <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
+                  <StartView onLoggedIn={(user) => this.onLoggedIn(user)} />
                 );
               }}
             />
@@ -164,10 +164,10 @@ class MainView extends Component {
               exact
               path="/users/:username"
               render={({ history }) => {
-                // If no logged in user LoginView is rendered
+                // If no logged in user StartView is rendered
                 if (!user)
                   return (
-                    <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
+                    <StartView onLoggedIn={(user) => this.onLoggedIn(user)} />
                   );
                 // Empty container when no list is loaded
                 if (movies.length === 0) return <div className="main-view" />;
@@ -189,10 +189,10 @@ class MainView extends Component {
               exact
               path="/users/edit/:username"
               render={({ history }) => {
-                // If no logged in user LoginView is rendered
+                // If no logged in user StartView is rendered
                 if (!user)
                   return (
-                    <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
+                    <StartView onLoggedIn={(user) => this.onLoggedIn(user)} />
                   );
                 // Empty container when no list is loaded
                 if (movies.length === 0) return <div className="main-view" />;
@@ -215,10 +215,10 @@ class MainView extends Component {
               exact
               path="/movies/:movieId"
               render={({ match, history }) => {
-                // If no logged in user LoginView is rendered
+                // If no logged in user StartView is rendered
                 if (!user)
                   return (
-                    <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
+                    <StartView onLoggedIn={(user) => this.onLoggedIn(user)} />
                   );
                 // Empty container when no list is loaded
                 if (movies.length === 0) return <div className="main-view" />;
@@ -239,10 +239,10 @@ class MainView extends Component {
               exact
               path="/directors"
               render={({ history }) => {
-                // If no logged in user LoginView is rendered
+                // If no logged in user StartView is rendered
                 if (!user)
                   return (
-                    <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
+                    <StartView onLoggedIn={(user) => this.onLoggedIn(user)} />
                   );
                 // Empty container when no list is loaded
                 if (movies.length === 0) return <div className="main-view" />;
@@ -262,10 +262,10 @@ class MainView extends Component {
               exact
               path="/genres"
               render={({ history }) => {
-                // If no logged in user LoginView is rendered
+                // If no logged in user StartView is rendered
                 if (!user)
                   return (
-                    <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
+                    <StartView onLoggedIn={(user) => this.onLoggedIn(user)} />
                   );
                 // Empty container when no list is loaded
                 if (movies.length === 0) return <div className="main-view" />;
@@ -285,10 +285,10 @@ class MainView extends Component {
               exact
               path="/genres/:name"
               render={({ match, history }) => {
-                // If no logged in user LoginView is rendered
+                // If no logged in user StartView is rendered
                 if (!user)
                   return (
-                    <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
+                    <StartView onLoggedIn={(user) => this.onLoggedIn(user)} />
                   );
                 // Empty container when no list is loaded
                 if (movies.length === 0) return <div className="main-view" />;
@@ -315,10 +315,10 @@ class MainView extends Component {
               exact
               path="/directors/:name"
               render={({ match, history }) => {
-                // If no logged in user LoginView is rendered
+                // If no logged in user StartView is rendered
                 if (!user)
                   return (
-                    <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
+                    <StartView onLoggedIn={(user) => this.onLoggedIn(user)} />
                   );
                 // Empty container when no list is loaded
                 if (movies.length === 0) return <div className="main-view" />;
