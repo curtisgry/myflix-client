@@ -8,23 +8,12 @@ import { connect } from 'react-redux';
 
 import './genre-view-all.scss';
 
-function GenreViewAll({ movies }) {
-  // Take genre out of movies into new Array
-  // then get index of director in the new array and compare it to the current index
-  // of the filter method. If the index matches it will return a single genre
-  // filtering out the duplicates.
-  const genreList = movies
-    .map((movie) => movie.Genre)
-    .filter(
-      (item, index, self) =>
-        self.findIndex((gen) => gen.Name === item.Name) === index
-    );
-
+function GenreViewAll({ genres }) {
   return (
     <div className="content">
       <h2>Genres</h2>
       <Row>
-        {genreList.map((genre, i) => (
+        {genres.map((genre, i) => (
           <Col className="mb-4" lg={12} key={i}>
             <h4>{genre.Name}</h4>
             <p>{genre.Description}</p>
@@ -39,7 +28,7 @@ function GenreViewAll({ movies }) {
 }
 
 GenreViewAll.propTypes = {
-  movies: PropTypes.array.isRequired,
+  genres: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = (state) => {

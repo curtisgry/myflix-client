@@ -64,7 +64,7 @@ class MainView extends Component {
         headers: { Authorization: `Bearer ${userToken}` },
       })
       .then((res) => {
-        const { setMovies } = this.props;
+        const { setMovies, setDirectors, setGenres } = this.props;
         setMovies(res.data);
         const directors = separateData('Director', res.data);
         setDirectors(directors);
@@ -352,6 +352,7 @@ const mapStateToProps = (state) => ({
   user: state.user,
   favorites: state.favorites,
   genres: state.genres,
+  directors: state.directors,
 });
 
 export default connect(mapStateToProps, {
