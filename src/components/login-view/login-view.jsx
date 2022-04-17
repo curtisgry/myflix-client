@@ -4,6 +4,10 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { Col } from 'react-bootstrap';
+import PosterSlider from '../poster-slider/poster-slider';
+
+import './login-view.scss';
 
 function LoginView({ onLoggedIn }) {
   const [username, setUsername] = useState('');
@@ -11,8 +15,13 @@ function LoginView({ onLoggedIn }) {
 
   const [usernameErr, setUsernameErr] = useState('');
   const [passwordErr, setPasswordErr] = useState('');
+  const [loginErr, setLoginErr] = useState('');
 
   const validate = () => {
+    // Reset errors when validate runs
+    setUsernameErr('');
+    setPasswordErr('');
+
     let isReq = true;
     if (!username) {
       setUsernameErr('Username Required');
@@ -55,40 +64,67 @@ function LoginView({ onLoggedIn }) {
           onLoggedIn(data);
         })
         .catch(() => {
+          setLoginErr('Username or Password is incorrect');
           console.log('No user found');
         });
     }
   };
 
   return (
-    <div>
-      <Link to="/register">Sign Up Here</Link>
-      <Form>
-        <Form.Group controlId="formUsername">
-          <Form.Label>Username:</Form.Label>
-          <Form.Control name="username" type="text" onChange={handleChange} />
-          {usernameErr ? <span>{usernameErr}</span> : ''}
-        </Form.Group>
+    <>
+      <div className="logo-bg" />
+      <div className="logo-gradient" />
+      <div className="login-main">
+        <div className="login-page-container login-slider">
+          <PosterSlider />
+        </div>
+        <div className="login-page-container">
+          <h1 className="login-page-logo">myFlix</h1>
+          <Form className="form-login">
+            <Form.Group className="form-item" controlId="formUsername">
+              <Form.Label>Username:</Form.Label>
+              <Form.Control
+                name="username"
+                type="text"
+                onChange={handleChange}
+              />
+              {usernameErr ? (
+                <spa className="login-error" n>
+                  {usernameErr}
+                </spa>
+              ) : (
+                ''
+              )}
+            </Form.Group>
 
-        <Form.Group controlId="formPassword">
-          <Form.Label>Password:</Form.Label>
-          <Form.Control
-            name="password"
-            type="password"
-            onChange={handleChange}
-          />
-          {passwordErr ? <span>{passwordErr}</span> : ''}
-        </Form.Group>
-        <Button variant="primary" type="submit" onClick={handleSubmit}>
-          Submit
-        </Button>
-      </Form>
-    </div>
+            <Form.Group className="form-item" controlId="formPassword">
+              <Form.Label>Password:</Form.Label>
+              <Form.Control
+                name="password"
+                type="password"
+                onChange={handleChange}
+              />
+              {passwordErr ? (
+                <span className="login-error">{passwordErr}</span>
+              ) : (
+                ''
+              )}
+
+              {loginErr ? <span className="login-error">{loginErr}</span> : ''}
+            </Form.Group>
+            <Link to="/register">
+              <Button className="sign-up" variant="link">
+                Sign Up
+              </Button>
+            </Link>
+            <Button variant="primary" type="submit" onClick={handleSubmit}>
+              Submit
+            </Button>
+          </Form>
+        </div>
+      </div>
+    </>
   );
 }
-
-LoginView.propTypes = {
-  onLoggedIn: PropTypes.func.isRequired,
-};
 
 export default LoginView;

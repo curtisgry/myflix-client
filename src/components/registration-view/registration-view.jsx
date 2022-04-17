@@ -4,6 +4,8 @@ import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 
+import './registration-view.scss';
+
 function RegistrationView({ onLoggedIn }) {
   const [userInfo, setUserInfo] = useState({
     Username: '',
