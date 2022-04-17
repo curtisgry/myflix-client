@@ -1,5 +1,6 @@
 * {
     font-family: 'Nunito', sans-serif;
+    box-sizing: border-box;
 }
 
 body {
@@ -14,4 +15,8 @@ h2, h4, p {
 input {
     border: none !important;
     border-radius: 0 !important;
+}
+
+.content {
+    margin-top: 2rem;
 }

@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Container from 'react-bootstrap/Container';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import './navbar.scss';
 
 function NavbarTop({ user }) {
+  const location = useLocation();
+  console.log(location);
   return (
     <Navbar className="navbar-custom" expand="lg">
       <Container>
@@ -19,13 +21,32 @@ function NavbarTop({ user }) {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Link to="/">
-              <Nav.Link as="li">All</Nav.Link>
+              <Nav.Link
+                className={location.pathname === '/' ? 'active-page' : ''}
+                as="li"
+              >
+                All
+              </Nav.Link>
             </Link>
             <Link to="/genres/Action">
-              <Nav.Link as="li">Genres</Nav.Link>
+              <Nav.Link
+                className={
+                  location.pathname.includes('genres') ? 'active-page' : ''
+                }
+                as="li"
+              >
+                Genres
+              </Nav.Link>
             </Link>
             <Link to="/directors/Christopher Nolan">
-              <Nav.Link as="li">Directors</Nav.Link>
+              <Nav.Link
+                className={
+                  location.pathname.includes('directors') ? 'active-page' : ''
+                }
+                as="li"
+              >
+                Directors
+              </Nav.Link>
             </Link>
           </Nav>
           <Nav className="justify-content-end">
@@ -33,7 +54,14 @@ function NavbarTop({ user }) {
               <>
                 <Navbar.Text>Welcome </Navbar.Text>
                 <Link to={`/users/${user}`}>
-                  <Nav.Link as="li">{user}</Nav.Link>
+                  <Nav.Link
+                    className={
+                      location.pathname.includes('users') ? 'active-page' : ''
+                    }
+                    as="li"
+                  >
+                    {user}
+                  </Nav.Link>
                 </Link>
               </>
             ) : (

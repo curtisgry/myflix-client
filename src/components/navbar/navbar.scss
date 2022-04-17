@@ -7,8 +7,12 @@
         text-decoration: none;
     }
 
-    li:hover {
-        color: #df38e8 !important;
+    li {
+        transition: all 0.2s ease;
+
+        &:hover {
+            color: #df38e8 !important;
+        }
     }
 
     span {
@@ -19,4 +23,9 @@
 
 .navbar-brand {
     font-family: 'Lobster', cursive !important;
+}
+
+.active-page {
+    padding-bottom: 0 !important;
+   border-bottom: 2px solid #df38e8 ;
 }
