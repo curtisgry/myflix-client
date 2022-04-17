@@ -293,6 +293,7 @@ class MainView extends Component {
                         movies.find((m) => m.Genre.Name === match.params.name)
                           .Genre
                       }
+                      getFavorites={this.getFavorites}
                       onBackClick={() => history.goBack()}
                     />
                   </Col>
@@ -323,6 +324,7 @@ class MainView extends Component {
                       directorMovies={movies.filter(
                         (m) => m.Director.Name === match.params.name
                       )}
+                      getFavorites={this.getFavorites}
                       onBackClick={() => history.goBack()}
                     />
                   </Col>

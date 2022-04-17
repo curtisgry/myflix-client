@@ -1,21 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
+import Col from 'react-bootstrap/Col';
 
 import { Link } from 'react-router-dom';
 
 function DirectorCard({ director }) {
   return (
-    <Card>
-      <Card.Body>
-        <Card.Title>{director.Name}</Card.Title>
-        <Card.Text>{director.Bio}</Card.Text>
-        <Link to={`/directors/${director.Name}`}>
-          <Button variant="link">View</Button>
-        </Link>
-      </Card.Body>
-    </Card>
+    <Col className="mb-4" lg={12}>
+      <h4>{director.Name}</h4>
+      <p>{director.Bio}</p>
+      <Link to={`/directors/${director.Name}`}>
+        <Button variant="link">View Movies</Button>
+      </Link>
+    </Col>
   );
 }
 

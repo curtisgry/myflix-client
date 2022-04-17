@@ -17,7 +17,7 @@ function DirectorsViewAll({ movies }) {
     );
 
   return (
-    <div>
+    <div className="content">
       <h2>Directors</h2>
       <Row>
         {directorList.map((director) => (
