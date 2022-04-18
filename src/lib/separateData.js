@@ -3,7 +3,6 @@ const separateData = (type, data) => {
   // then get index of data in the new array and compare it to the current index
   // of the filter method. If the index matches it will return a single one of the data type
   // filtering out the duplicates.
-  console.log('sep data', data);
   const dataList = data
     .map((item) => item[type])
     .filter(

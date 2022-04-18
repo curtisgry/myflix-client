@@ -18,7 +18,11 @@ input {
 }
 
 .content {
+    width: 90% !important;
     margin-top: 2rem;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    animation: fade 0.3s ease forwards;
 }
 
 @keyframes slide {
@@ -30,4 +34,13 @@ input {
         transform: translateX(0)
     }
 
+}
+
+@keyframes fade {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }

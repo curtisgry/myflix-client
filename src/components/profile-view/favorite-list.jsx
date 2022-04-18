@@ -9,7 +9,7 @@ import './profile-view.scss';
 
 function FavoriteList({ favoriteMovies, removeFavorite }) {
   return (
-    <>
+    <div className="favorite-list">
       <h3>Favorites List</h3>
       {favoriteMovies.length < 1 ? (
         <span>No favorites.</span>
@@ -33,7 +33,7 @@ function FavoriteList({ favoriteMovies, removeFavorite }) {
           ))}
         </Row>
       )}
-    </>
+    </div>
   );
 }
 

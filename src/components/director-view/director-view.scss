@@ -28,3 +28,14 @@
     font-family: 'Lobster', cursive !important;
     margin-bottom: 2rem;
 }
+
+@media (max-width: 415px) {
+    .director-tab-list {
+        font-size: 0.8rem;
+        justify-content: center;
+
+        button {
+            margin-right: 1rem;
+        }
+    }
+}

@@ -5,6 +5,9 @@ import PropTypes from 'prop-types';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { setUser } from '../../actions/actions';
+import './update-profile.scss';
 
 function UpdateProfile({ user, onLoggedIn, clearUserOnDelete }) {
   const [userInfo, setUserInfo] = useState({});
@@ -104,9 +107,11 @@ function UpdateProfile({ user, onLoggedIn, clearUserOnDelete }) {
       .then(() => {
         localStorage.clear();
         clearUserOnDelete();
+        setUser(null);
       })
       .then(() => {
-        history.push('/login');
+        history.push('/confirmation');
+        location.reload();
       })
       .catch((e) => {
         console.log('Could not delete', e);
@@ -114,7 +119,6 @@ function UpdateProfile({ user, onLoggedIn, clearUserOnDelete }) {
   };
 
   const handleChange = (e) => {
-    console.log(userInfo);
     const { name, value } = e.target;
     setUserInfo({ ...userInfo, [name]: value });
   };
@@ -168,7 +172,7 @@ function UpdateProfile({ user, onLoggedIn, clearUserOnDelete }) {
   };
 
   return (
-    <>
+    <div className="content update-profile-page">
       <h2>Update Info</h2>
       {isEditSuccess ? <span>Success!</span> : ''}
       <Form onSubmit={handleSubmit} className="mb-4">
@@ -182,7 +186,7 @@ function UpdateProfile({ user, onLoggedIn, clearUserOnDelete }) {
             onKeyUp={onKeyUp}
           />
           {validationErrors.UsernameErr ? (
-            <span>{validationErrors.UsernameErr}</span>
+            <span className='update-error'>{validationErrors.UsernameErr}</span>
           ) : (
             ''
           )}
@@ -197,7 +201,7 @@ function UpdateProfile({ user, onLoggedIn, clearUserOnDelete }) {
             onKeyUp={onKeyUp}
           />
           {validationErrors.PasswordErr ? (
-            <span>{validationErrors.PasswordErr}</span>
+            <span className='update-error'>{validationErrors.PasswordErr}</span>
           ) : (
             ''
           )}
@@ -212,7 +216,7 @@ function UpdateProfile({ user, onLoggedIn, clearUserOnDelete }) {
             onKeyUp={onKeyUp}
           />
           {validationErrors.EmailErr ? (
-            <span>{validationErrors.EmailErr}</span>
+            <span className='update-error'>{validationErrors.EmailErr}</span>
           ) : (
             ''
           )}
@@ -230,7 +234,7 @@ function UpdateProfile({ user, onLoggedIn, clearUserOnDelete }) {
             onChange={handleChange}
           />
           {validationErrors.BirthdayErr ? (
-            <span>{validationErrors.BirthdayErr}</span>
+            <span className='update-error'>{validationErrors.BirthdayErr}</span>
           ) : (
             ''
           )}
@@ -243,7 +247,7 @@ function UpdateProfile({ user, onLoggedIn, clearUserOnDelete }) {
       <Button variant="danger" onClick={() => deleteUser(user)}>
         Delete Account
       </Button>
-    </>
+    </div>
   );
 }
 
@@ -253,4 +257,4 @@ UpdateProfile.propTypes = {
   clearUserOnDelete: PropTypes.func.isRequired,
 };
 
-export default UpdateProfile;
+export default connect(null, { setUser })(UpdateProfile);

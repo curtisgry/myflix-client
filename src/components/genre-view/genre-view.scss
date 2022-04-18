@@ -40,3 +40,15 @@
     border-radius: 0 !important;
     background-color: #711A75 !important;
 }
+
+
+@media (max-width: 415px) {
+    .genre-tab-list {
+        font-size: 0.8rem;
+        justify-content: center;
+
+        button {
+            margin-right: 1rem;
+        }
+    }
+}

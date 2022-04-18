@@ -17,13 +17,11 @@ import MovieView from '../movie-view/movie-view';
 import StartView from '../start-view/start-view';
 import DirectorView from '../director-view/director-view';
 import NavbarTop from '../navbar/navbar';
-import DirectorsViewAll from '../directors-view-all/directors-view-all';
-import GenreViewAll from '../genre-view-all/genre-view-all';
 import GenreView from '../genre-view/genre-view';
-import RegistrationView from '../registration-view/registration-view';
 import ProfileView from '../profile-view/profile-view';
 import UpdateProfile from '../update-profile/update-profile';
 import separateData from '../../lib/separateData';
+import ConfirmationView from '../confirmation-view/confirmation-view';
 
 class MainView extends Component {
   constructor() {
@@ -40,7 +38,6 @@ class MainView extends Component {
       setUser(localStorage.getItem('user'));
 
       this.getMovies(accessToken);
-      console.log('after getmoives');
       this.getFavorites(accessToken);
     }
   }
@@ -79,14 +76,12 @@ class MainView extends Component {
   getFavorites(userToken) {
     const loggedInUser = localStorage.getItem('user');
     if (loggedInUser) {
-      console.log('in if user');
       axios
         .get(`https://myflix-api-cgray.herokuapp.com/users/${loggedInUser}`, {
           headers: { Authorization: `Bearer ${userToken}` },
         })
         .then((res) => {
           const { setFavorites } = this.props;
-          console.log('resdata', res.data);
           setFavorites(res.data.FavoriteMovies);
         })
         .catch((e) => {
@@ -101,9 +96,8 @@ class MainView extends Component {
   }
 
   render() {
-    const { movies, user, favorites, genres } = this.props;
-    console.log('gemre', genres);
-    console.log('rendered main');
+    const { movies, user, favorites } = this.props;
+    console.log(user);
     return (
       <Router>
         {user ? <NavbarTop user={user} /> : ''}
@@ -124,11 +118,13 @@ class MainView extends Component {
                 if (movies.length === 0) return <div className="main-view" />;
 
                 return (
-                  <MoviesList
-                    movies={movies}
-                    favorites={favorites}
-                    getFavorites={this.getFavorites}
-                  />
+                  <Row className="content">
+                    <MoviesList
+                      movies={movies}
+                      favorites={favorites}
+                      getFavorites={this.getFavorites}
+                    />
+                  </Row>
                 );
               }}
             />
@@ -339,6 +335,11 @@ class MainView extends Component {
                   </Col>
                 );
               }}
+            />
+            <Route
+              exact
+              path="/confirmation"
+              render={({ match, history }) => <ConfirmationView />}
             />
           </Row>
         </Container>

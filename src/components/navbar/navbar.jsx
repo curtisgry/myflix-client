@@ -9,7 +9,6 @@ import './navbar.scss';
 
 function NavbarTop({ user }) {
   const location = useLocation();
-  console.log(location);
   return (
     <Navbar className="navbar-custom" expand="lg">
       <Container>

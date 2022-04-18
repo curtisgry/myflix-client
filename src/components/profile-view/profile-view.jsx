@@ -44,7 +44,9 @@ function ProfileView({ user, movies, getFavorites }) {
   };
 
   return (
-    <>
+    <div className="content profile-page">
+      <h2 className="profile-title">Profile</h2>
+      <h3 className="profile-sub-title">Here is your info {user}</h3>
       <Link to={`/users/edit/${user}`}>
         <Button variant="link">Edit Profile</Button>
       </Link>
@@ -61,7 +63,7 @@ function ProfileView({ user, movies, getFavorites }) {
       ) : (
         ''
       )}
-    </>
+    </div>
   );
 }
 
