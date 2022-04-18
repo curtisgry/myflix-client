@@ -46,8 +46,8 @@ class MovieView extends Component {
     const {isFavorite} = this.state
 
     return (
-      <>
-        <Card className="movie-view-card ">
+      <div className="content">
+        <Card className="movie-view-card">
           <Card.Img
             variant="top"
             src={`https://res.cloudinary.com/drghkywbx/image/upload/c_scale,h_809/v1649103136/${movie.ImagePath}`}
@@ -67,10 +67,13 @@ class MovieView extends Component {
             <Button variant="link" onClick={() => onBackClick()}>
               Back
             </Button>
-          <FavoriteToggle isFavorite={isFavorite} movieId={movie._id} user={user} getFavorites={getFavorites}/>
+            <div className="favorite-toggle-container">
+              <FavoriteToggle isFavorite={isFavorite} movieId={movie._id} user={user} getFavorites={getFavorites}/>
+            </div>
+   
           </Card.Body>
         </Card>
-      </>
+      </div>
     );
   }
 }

@@ -1,4 +1,28 @@
 .movie-view-card {
-    border: 4px solid magenta;
     display: flex !important;
+    width: 500px;
+    margin: 2rem auto !important;
+    border-radius: 0 !important;
+    background-color: #303030 !important;
+  
+    img {
+        width: 300px !important;
+        margin: 30px auto !important;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    }
+    .favorite-toggle-container {
+        position: absolute;
+        right: 70;
+        bottom: 60;
+    }
+}
+
+@media (max-width: 400px) {
+    .movie-view-card {
+        img {
+            width: 200px !important;
+            margin: 0 auto !important;
+        }
+
+    }
 }

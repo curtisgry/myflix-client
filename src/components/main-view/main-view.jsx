@@ -219,57 +219,11 @@ class MainView extends Component {
                 // Empty container when no list is loaded
                 if (movies.length === 0) return <div className="main-view" />;
                 return (
-                  <Col md={4}>
+                  <Col md={12}>
                     <MovieView
                       movie={movies.find((m) => m._id === match.params.movieId)}
                       onBackClick={() => history.goBack()}
                       getFavorites={this.getFavorites}
-                    />
-                  </Col>
-                );
-              }}
-            />
-
-            {/* View all directors with info */}
-            <Route
-              exact
-              path="/directors"
-              render={({ history }) => {
-                // If no logged in user StartView is rendered
-                if (!user)
-                  return (
-                    <StartView onLoggedIn={(user) => this.onLoggedIn(user)} />
-                  );
-                // Empty container when no list is loaded
-                if (movies.length === 0) return <div className="main-view" />;
-                return (
-                  <Col md={8}>
-                    <DirectorsViewAll
-                      movies={movies}
-                      onBackClick={() => history.goBack()}
-                    />
-                  </Col>
-                );
-              }}
-            />
-
-            {/* View all genres with info */}
-            <Route
-              exact
-              path="/genres"
-              render={({ history }) => {
-                // If no logged in user StartView is rendered
-                if (!user)
-                  return (
-                    <StartView onLoggedIn={(user) => this.onLoggedIn(user)} />
-                  );
-                // Empty container when no list is loaded
-                if (movies.length === 0) return <div className="main-view" />;
-                return (
-                  <Col md={8}>
-                    <GenreViewAll
-                      movies={movies}
-                      onBackClick={() => history.goBack()}
                     />
                   </Col>
                 );
