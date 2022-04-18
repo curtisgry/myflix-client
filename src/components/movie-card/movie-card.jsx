@@ -79,7 +79,7 @@ MovieCard.propTypes = {
   }).isRequired,
   favorites: PropTypes.array.isRequired,
   variant: PropTypes.string,
-  getFavorites: PropTypes.func.isRequired,
+  getFavorites: PropTypes.func,
 };
 
 const mapStateToProps = (state) => {

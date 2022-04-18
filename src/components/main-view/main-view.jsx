@@ -98,7 +98,6 @@ class MainView extends Component {
 
   render() {
     const { movies, user, favorites } = this.props;
-    console.log(user);
     return (
       <Router>
         {user ? <NavbarTop user={user} /> : ''}
@@ -294,7 +293,7 @@ class MainView extends Component {
             <Route
               exact
               path="/confirmation"
-              render={({ match, history }) => <ConfirmationView />}
+              render={() => <ConfirmationView />}
             />
           </Row>
         </Container>

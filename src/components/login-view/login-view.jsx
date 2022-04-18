@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import axios from 'axios';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import './login-view.scss';
 
@@ -16,8 +16,6 @@ function LoginView({ onLoggedIn }) {
   const [usernameErr, setUsernameErr] = useState('');
   const [passwordErr, setPasswordErr] = useState('');
   const [loginErr, setLoginErr] = useState('');
-
-  const location = useLocation();
 
   const validate = () => {
     // Reset errors when validate runs
