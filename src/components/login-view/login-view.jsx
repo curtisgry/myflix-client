@@ -98,7 +98,7 @@ function LoginView({ onLoggedIn }) {
       <Button variant="primary" type="submit" onClick={handleSubmit}>
         Submit
       </Button>
-      <div className="loading-login">
+      <div className="loading-spinner-login">
         {isLoading ? <Spinner animation="border" variant="light" /> : ''}
       </div>
     </Form>

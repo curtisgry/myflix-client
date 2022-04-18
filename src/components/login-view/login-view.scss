@@ -1,5 +1,8 @@
 .form-main {
     animation: slide 2s ease forwards;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .form-item {
@@ -11,7 +14,7 @@
 }
 
 .form-main {
-    background-color: #180A0A;
+    background-color: #271a4f;
     padding: 3rem;
     transition: all 0.2s ease;
 }

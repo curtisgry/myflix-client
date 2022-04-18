@@ -178,7 +178,7 @@ function RegistrationView({ onLoggedIn }) {
       <Button variant="primary" type="submit">
         Submit
       </Button>
-      <div className="loading-spinner">
+      <div className="loading-spinner-reg">
         {isLoading ? <Spinner animation="border" variant="light" /> : ''}
       </div>
     </Form>

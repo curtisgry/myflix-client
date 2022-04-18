@@ -33,7 +33,7 @@ function UpdateProfile({ user, onLoggedIn, clearUserOnDelete }) {
       .catch(() => {
         console.log('No user found');
       });
-  }, []);
+  });
 
   // Returns false when empty and true when not empty
   // isReq should be an updateable variable from upper scope
@@ -111,7 +111,7 @@ function UpdateProfile({ user, onLoggedIn, clearUserOnDelete }) {
       })
       .then(() => {
         history.push('/confirmation');
-        location.reload();
+        window.location.reload();
       })
       .catch((e) => {
         console.log('Could not delete', e);
@@ -186,7 +186,7 @@ function UpdateProfile({ user, onLoggedIn, clearUserOnDelete }) {
             onKeyUp={onKeyUp}
           />
           {validationErrors.UsernameErr ? (
-            <span className='update-error'>{validationErrors.UsernameErr}</span>
+            <span className="update-error">{validationErrors.UsernameErr}</span>
           ) : (
             ''
           )}
@@ -201,7 +201,7 @@ function UpdateProfile({ user, onLoggedIn, clearUserOnDelete }) {
             onKeyUp={onKeyUp}
           />
           {validationErrors.PasswordErr ? (
-            <span className='update-error'>{validationErrors.PasswordErr}</span>
+            <span className="update-error">{validationErrors.PasswordErr}</span>
           ) : (
             ''
           )}
@@ -216,7 +216,7 @@ function UpdateProfile({ user, onLoggedIn, clearUserOnDelete }) {
             onKeyUp={onKeyUp}
           />
           {validationErrors.EmailErr ? (
-            <span className='update-error'>{validationErrors.EmailErr}</span>
+            <span className="update-error">{validationErrors.EmailErr}</span>
           ) : (
             ''
           )}
@@ -234,7 +234,7 @@ function UpdateProfile({ user, onLoggedIn, clearUserOnDelete }) {
             onChange={handleChange}
           />
           {validationErrors.BirthdayErr ? (
-            <span className='update-error'>{validationErrors.BirthdayErr}</span>
+            <span className="update-error">{validationErrors.BirthdayErr}</span>
           ) : (
             ''
           )}

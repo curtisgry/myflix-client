@@ -1,3 +1,7 @@
 { 
-    "extends": [ "wesbos" ]
+    "extends": [ "wesbos" ],
+    "rules" : {
+        "no-shadow": 0,
+        "prefer-regex-literals": 0
+    }
 }
