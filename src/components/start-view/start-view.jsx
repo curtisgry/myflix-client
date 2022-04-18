@@ -1,10 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import axios from 'axios';
-import { Link, useLocation } from 'react-router-dom';
-import { Col } from 'react-bootstrap';
+import { useLocation } from 'react-router-dom';
 import PosterSlider from '../poster-slider/poster-slider';
 
 import './start-view.scss';
@@ -12,7 +8,6 @@ import LoginView from '../login-view/login-view';
 import RegistrationView from '../registration-view/registration-view';
 
 function StartView({ onLoggedIn }) {
-
   const location = useLocation();
 
   return (
@@ -35,5 +30,9 @@ function StartView({ onLoggedIn }) {
     </>
   );
 }
+
+StartView.propTypes = {
+  onLoggedIn: PropTypes.func.isRequired,
+};
 
 export default StartView;

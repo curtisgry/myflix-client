@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Col from 'react-bootstrap/Col';
 import { connect } from 'react-redux';
 import MovieCard from '../movie-card/movie-card';
@@ -39,6 +40,13 @@ function MoviesList(props) {
     </>
   );
 }
+
+MoviesList.propTypes = {
+  movies: PropTypes.array.isRequired,
+  visibilityFilter: PropTypes.string.isRequired,
+  favorites: PropTypes.array.isRequired,
+  getFavorites: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = (state) => {
   const { visibilityFilter, favorites } = state;

@@ -70,6 +70,7 @@ function ProfileView({ user, movies, getFavorites }) {
 ProfileView.propTypes = {
   user: PropTypes.string.isRequired,
   movies: PropTypes.array.isRequired,
+  getFavorites: PropTypes.func.isRequired,
 };
 
 export default ProfileView;

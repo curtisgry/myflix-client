@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -301,6 +302,17 @@ class MainView extends Component {
     );
   }
 }
+
+MainView.propTypes = {
+  movies: PropTypes.array.isRequired,
+  user: PropTypes.string.isRequired,
+  favorites: PropTypes.array.isRequired,
+  setFavorites: PropTypes.func.isRequired,
+  setUser: PropTypes.func.isRequired,
+  setMovies: PropTypes.func.isRequired,
+  setDirectors: PropTypes.func.isRequired,
+  setGenres: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = (state) => ({
   movies: state.movies,

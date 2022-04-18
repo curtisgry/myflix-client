@@ -2,6 +2,7 @@
     "extends": [ "wesbos" ],
     "rules" : {
         "no-shadow": 0,
-        "prefer-regex-literals": 0
+        "prefer-regex-literals": 0,
+        "class-methods-use-this": 0,
     }
 }

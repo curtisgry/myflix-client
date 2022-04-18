@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { addFavorite, removeFavorite } from '../../actions/actions';
@@ -76,6 +77,13 @@ function FavoriteToggle({ isFavorite, movieId, user, getFavorites }) {
     </div>
   );
 }
+
+FavoriteToggle.propTypes = {
+  isFavorite: PropTypes.bool.isRequired,
+  movieId: PropTypes.string.isRequired,
+  user: PropTypes.string.isRequired,
+  getFavorites: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = (state) => {
   const { favorites, user } = state;

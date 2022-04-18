@@ -9,6 +9,12 @@ import './navbar.scss';
 
 function NavbarTop({ user }) {
   const location = useLocation();
+
+  const handleLogOut = () => {
+    localStorage.clear();
+    window.location.reload();
+  };
+
   return (
     <Navbar className="navbar-custom" expand="lg">
       <Container>
@@ -60,6 +66,11 @@ function NavbarTop({ user }) {
                     as="li"
                   >
                     {user}
+                  </Nav.Link>
+                </Link>
+                <Link to="/">
+                  <Nav.Link onClick={handleLogOut} as="li">
+                    Log Out
                   </Nav.Link>
                 </Link>
               </>
