@@ -5,7 +5,7 @@ import './poster-slider.scss';
 export default function PosterSlider() {
   return (
     <div className="slider-container">
-      <Carousel fade controls={false} indicators={false} pause="hover">
+      <Carousel fade controls={false} indicators={false} pause={false}>
         <Carousel.Item interval={2000}>
           <img
             className="d-block w-100"
