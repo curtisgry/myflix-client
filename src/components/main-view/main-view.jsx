@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Container from 'react-bootstrap/Container';
+import Spinner from 'react-bootstrap/Spinner';
 import {
   setMovies,
   setUser,
@@ -30,6 +31,9 @@ class MainView extends Component {
     this.onLoggedIn = this.onLoggedIn.bind(this);
     this.getFavorites = this.getFavorites.bind(this);
     this.clearUserOnDelete = this.clearUserOnDelete.bind(this);
+    this.state = {
+      isLoading: true,
+    };
   }
 
   componentDidMount() {
@@ -37,7 +41,9 @@ class MainView extends Component {
     if (accessToken !== null) {
       const { setUser } = this.props;
       setUser(localStorage.getItem('user'));
-
+      this.setState({
+        isLoading: true,
+      });
       this.getMovies(accessToken);
       this.getFavorites(accessToken);
     }
@@ -51,12 +57,18 @@ class MainView extends Component {
 
     localStorage.setItem('token', authData.token);
     localStorage.setItem('user', authData.user.Username);
+    this.setState({
+      isLoading: true,
+    });
     this.getMovies(authData.token);
     this.getFavorites(authData.token);
   }
 
   // Get movie list and update state with user authentication from Bearer Token
   getMovies(userToken) {
+    this.setState({
+      isLoading: true,
+    });
     axios
       .get('https://myflix-api-cgray.herokuapp.com/movies', {
         headers: { Authorization: `Bearer ${userToken}` },
@@ -68,6 +80,9 @@ class MainView extends Component {
         setDirectors(directors);
         const genres = separateData('Genre', res.data);
         setGenres(genres);
+        this.setState({
+          isLoading: false,
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -98,6 +113,7 @@ class MainView extends Component {
 
   render() {
     const { movies, user, favorites } = this.props;
+    const { isLoading } = this.state;
     return (
       <Router>
         {user ? <NavbarTop user={user} /> : ''}
@@ -115,15 +131,27 @@ class MainView extends Component {
                   );
 
                 // Empty container when no list is loaded
-                if (movies.length === 0) return <div className="main-view" />;
+                if (movies.length === 0) return <Row className="content" />;
 
                 return (
                   <Row className="content">
-                    <MoviesList
-                      movies={movies}
-                      favorites={favorites}
-                      getFavorites={this.getFavorites}
-                    />
+                    {isLoading ? (
+                      <Spinner
+                        style={{
+                          width: '200px',
+                          height: '200px',
+                          margin: '25vh auto',
+                        }}
+                        animation="border"
+                        variant="light"
+                      />
+                    ) : (
+                      <MoviesList
+                        movies={movies}
+                        favorites={favorites}
+                        getFavorites={this.getFavorites}
+                      />
+                    )}
                   </Row>
                 );
               }}

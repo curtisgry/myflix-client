@@ -7,6 +7,7 @@ import { Button, Badge } from "react-bootstrap";
 import FavoriteToggle from '../movie-card/favorite-toggle';
 import { connect } from "react-redux";
 
+
 import './movie-view.scss'
 
 class MovieView extends Component {
