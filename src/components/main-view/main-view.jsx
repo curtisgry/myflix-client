@@ -89,6 +89,7 @@ class MainView extends Component {
       });
   }
 
+  // Set current favorites from api to redux store
   getFavorites(userToken) {
     const loggedInUser = localStorage.getItem('user');
     if (loggedInUser) {

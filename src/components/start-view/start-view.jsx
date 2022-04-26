@@ -12,8 +12,10 @@ function StartView({ onLoggedIn }) {
 
   return (
     <>
+      {/* Background html */}
       <div className="logo-bg" />
       <div className="logo-gradient" />
+      {/* Background html */}
       <div className="login-main">
         <div className="login-page-container login-slider">
           <PosterSlider />

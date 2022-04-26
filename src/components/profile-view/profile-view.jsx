@@ -26,7 +26,7 @@ function ProfileView({ user, movies, getFavorites }) {
 
   useEffect(() => {
     getUserInfo();
-  });
+  }, []);
 
   const removeFavorite = (movieId) => {
     const userToken = localStorage.getItem('token');

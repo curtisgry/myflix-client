@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { setUser } from '../../actions/actions';
+import { checkNotEmptySetError, checkValidEmail } from '../../lib/validators';
 import './update-profile.scss';
 
 function UpdateProfile({ user, onLoggedIn, clearUserOnDelete }) {
@@ -33,48 +34,7 @@ function UpdateProfile({ user, onLoggedIn, clearUserOnDelete }) {
       .catch(() => {
         console.log('No user found');
       });
-  });
-
-  // Returns false when empty and true when not empty
-  // isReq should be an updateable variable from upper scope
-  // to indicate if errors were found through validation checks
-  const checkNotEmptySetError = (keyName, message, isReq) => {
-    // Check for value in userInfo object from state
-    if (!userInfo[keyName]) {
-      // If empty set related error message in validationErrors object
-      setValidationErrors((prevErrors) => ({
-        ...prevErrors,
-        [`${keyName}Err`]: message,
-      }));
-      return false;
-    }
-    // Reset error when requirements are met
-    setValidationErrors((prevErrors) => ({
-      ...prevErrors,
-      [`${keyName}Err`]: '',
-    }));
-
-    // Checks if any validation before has already been false
-    if (!isReq) return false;
-    // Return true when pass validation
-    return true;
-  };
-
-  // isReq should be an updateable variable from upper scope
-  // to indicate if errors were found through validation checks
-  const checkValidEmail = (isReq) => {
-    const regex = new RegExp('[a-z0-9]+@[a-z]+.[a-z]{2,3}');
-    const isValid = regex.test(userInfo.Email);
-    if (!isValid) {
-      setValidationErrors((prevErrors) => ({
-        ...prevErrors,
-        EmailErr: 'Not a valid email',
-      }));
-    }
-    // Check for previous validation faliure
-    if (!isReq) return false;
-    return isValid;
-  };
+  }, []);
 
   // Return true if valid
   const validate = () => {
@@ -84,15 +44,25 @@ function UpdateProfile({ user, onLoggedIn, clearUserOnDelete }) {
     const fields = Object.keys(userInfo).filter(
       (key) => key !== '__v' && key !== '_id' && key !== 'FavoriteMovies'
     );
-
+    console.log(fields);
     // Loop through keys and validate each has data
     fields.forEach((field) => {
-      isReq = checkNotEmptySetError(field, `${field} is required`, isReq);
+      isReq = checkNotEmptySetError({
+        objectData: userInfo,
+        keyName: field,
+        message: `${field} is required`,
+        isReq,
+        setStateFunc: setValidationErrors,
+      });
     });
 
     // Check for email
     if (userInfo.Email) {
-      isReq = checkValidEmail(isReq);
+      isReq = checkValidEmail({
+        value: userInfo.Email,
+        isReq,
+        setStateFunc: setValidationErrors,
+      });
     }
 
     return isReq;
