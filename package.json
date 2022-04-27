@@ -4,6 +4,7 @@
   "description": "Movie information application.",
   "scripts": {
     "build": "parcel build src/index.html",
+    "prebuild": "npm i parcel --save",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
