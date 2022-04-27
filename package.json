@@ -4,7 +4,6 @@
   "description": "Movie information application.",
   "scripts": {
     "build": "parcel build src/index.html",
-    "prebuild": "npm i parcel --save",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,6 +19,7 @@
   "dependencies": {
     "axios": "^0.26.1",
     "date-fns": "^2.28.0",
+    "parcel": "^2.5.0",
     "prop-types": "^15.8.1",
     "react": "^18.0.0",
     "react-bootstrap": "^2.2.2",
@@ -32,7 +32,7 @@
     "@babel/core": "^7.17.9",
     "@babel/eslint-parser": "^7.17.0",
     "@babel/preset-react": "^7.16.7",
-    "@parcel/transformer-sass": "^2.4.1",
+    "@parcel/transformer-sass": "^2.5.0",
     "@types/node": "^16.11.26",
     "@typescript-eslint/eslint-plugin": "^5.18.0",
     "@typescript-eslint/parser": "^5.18.0",
