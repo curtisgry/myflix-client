@@ -34,8 +34,11 @@ Users are able to:
 
 ### Links
 
-Add later
-<!-- - Live Site URL: [Here](https://curtisgry.github.io/cf-javascript-app/) -->
+- Live Site URL: [Here](https://myflix-5f2a35.netlify.app/)
+
+-Test credentials
+Username: testaccount
+Password: password
 
 ### Built with
 
