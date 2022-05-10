@@ -93,7 +93,12 @@ function LoginView({ onLoggedIn }) {
           Sign Up
         </Button>
       </Link>
-      <Button variant="primary" type="submit" onClick={handleSubmit}>
+      <Button
+        className="sign-up-btn"
+        variant="primary"
+        type="submit"
+        onClick={handleSubmit}
+      >
         Submit
       </Button>
       <div className="loading-spinner-login">

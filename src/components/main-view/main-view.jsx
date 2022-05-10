@@ -85,6 +85,7 @@ class MainView extends Component {
         });
       })
       .catch((err) => {
+        localStorage.clear();
         console.log(err);
       });
   }
