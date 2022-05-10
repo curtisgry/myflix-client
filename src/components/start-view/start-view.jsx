@@ -16,12 +16,12 @@ function StartView({ onLoggedIn }) {
       <div className="logo-bg" />
       <div className="logo-gradient" />
       {/* Background html */}
+      <h1 className="login-page-logo">myFlix</h1>
       <div className="login-main">
         <div className="login-page-container login-slider">
           <PosterSlider />
         </div>
         <div className="login-page-container">
-          <h1 className="login-page-logo">myFlix</h1>
           {location.pathname.includes('/register') ? (
             <RegistrationView onLoggedIn={onLoggedIn} />
           ) : (

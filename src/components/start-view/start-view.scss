@@ -25,11 +25,15 @@
 
 .login-page-logo {
     display: inline-block;
+    margin: 0 auto;
+    margin-top: 50px !important;
+    width: 200px !important;
     background-color: #4F359B;
+    color: white;
     font-family: 'Lobster', cursive !important;
     text-align: center;
-    padding: 18px;
-
+    padding: 18px 90px;
+    border-radius: 10px;
 }
 
 .login-main {
@@ -37,7 +41,7 @@
     height: 1000px;
     display: flex;
     align-items: center;
-    justify-content: space-around; 
+    justify-content: space-evenly; 
     button {
         margin-top: 1rem;
     }
@@ -50,7 +54,7 @@
 
 
 .login-page-container {
-    width: 45%;
+    width: 40%;
     z-index: 100;
     display: flex;
     flex-direction: column;
@@ -96,7 +100,6 @@
 
 @media (max-width: 500px){
     .form-main {
-        height: 500px !important;
         width: 100% !important;
     }
 }
